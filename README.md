@@ -15,7 +15,7 @@ dic = {
     "c": [{"d": [2, 3, 4], "e": [{"f": 1, "g": 2}]}]
 }
 ```
-which you want to flatten. Just apply ```flatten_json``` to this object:
+which you want to flatten. Just apply ```flatten_json```:
 ```python
 from flatten import flatten_json
 flatten_json(dic)
