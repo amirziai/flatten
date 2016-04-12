@@ -1,1 +1,1 @@
-from .flatten import flatten_json
+from .flatten_json import flatten_json

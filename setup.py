@@ -10,8 +10,8 @@ with open('LICENSE') as f:
 	license = f.read()
 
 setup(
-	name = 'flatten',
-	packages = ['flatten'],
+	name = 'flatten_json',
+	packages = ['flatten_json'],
 	version = '0.1',
 	description = 'Flatten JSON objects',
 	long_description = readme,
@@ -22,5 +22,5 @@ setup(
 	keywords = ['json', 'flatten', 'pandas'],
 	license=license,
 	classifiers = [],
-    ext_modules = cythonize("flatten.pyx")
+    ext_modules = cythonize("flatten_json.pyx")
 )

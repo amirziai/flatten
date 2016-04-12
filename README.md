@@ -3,7 +3,7 @@ Flattens JSON objects in Python. ```flatten_json``` destroys the hierarchy in yo
 
 ### Installation
 ```
-pip install flatten
+pip install flatten_json
 ```
 
 ### Usage
@@ -17,7 +17,7 @@ dic = {
 ```
 which you want to flatten. Just apply ```flatten_json```:
 ```python
-from flatten import flatten_json
+from flatten_json import flatten_json
 flatten_json(dic)
 ```
 
