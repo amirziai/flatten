@@ -1,26 +1,26 @@
 from distutils.core import setup
-from Cython.Build import cythonize
+#from Cython.Build import cythonize
 
 
-with open('README.md') as f:
-	readme = f.read()
+# with open('README.md') as f:
+# 	readme = f.read()
 
 
-with open('LICENSE') as f:
-	license = f.read()
+# with open('LICENSE') as f:
+# 	license = f.read()
 
 setup(
 	name = 'flatten_json',
 	packages = ['flatten_json'],
-	version = '0.1',
+	version = '0.1.2',
 	description = 'Flatten JSON objects',
-	long_description = readme,
+#	long_description = readme,
 	author = 'Amir Ziai',
 	author_email = 'arziai@gmail.com',
 	url = 'https://github.com/amirziai/flatten',
-	download_url = '...',
+#	download_url = '...',
 	keywords = ['json', 'flatten', 'pandas'],
-	license=license,
+#	license=license,
 	classifiers = [],
-    ext_modules = cythonize("flatten_json/flatten_json.pyx")
+#    ext_modules = cythonize("flatten_json/flatten_json.pyx")
 )
