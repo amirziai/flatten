@@ -1,6 +1,6 @@
 import unittest
 
-from flatten import flatten_json
+from flatten_json import flatten_json
 
 class UnitTests(unittest.TestCase):
     def test_no_flatten(self):

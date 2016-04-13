@@ -22,5 +22,5 @@ setup(
 	keywords = ['json', 'flatten', 'pandas'],
 	license=license,
 	classifiers = [],
-    ext_modules = cythonize("flatten_json.pyx")
+    ext_modules = cythonize("flatten_json/flatten_json.pyx")
 )
