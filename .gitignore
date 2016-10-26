@@ -1,0 +1,17 @@
+*.*~
+*.pyc
+*.log
+*.pyc
+*.DS_Store
+*.directory
+*.sql
+*.xls
+*.p12
+*.cer
+*.pem
+*.egg-info
+
+.project
+.pydevproject
+
+.idea
