@@ -17,8 +17,8 @@ dic = {
 ```
 which you want to flatten. Just apply ```flatten_json```:
 ```python
-from flatten_json import flatten_json
-flatten_json(dic)
+from flatten_json import flatten
+flatten(dic)
 ```
 
 Results:
@@ -34,16 +34,16 @@ Results:
 
 ### Usage with Pandas
 For the following object:
-```javascript
+```python
 dic = [
     {"a": 1, "b": 2, "c": {"d": 3, "e": 4}},
     {"a": 0.5, "c": {"d": 3.2}},
     {"a": 0.8, "b": 1.8},
 ]
 ```
-We can apply ```flatten_json``` to each element in the array and then use pandas to capture the output as a dataframe.
+We can apply `flatten` to each element in the array and then use pandas to capture the output as a dataframe:
 ```python
-dic_flattened = [flatten_json(d) for d in dic]
+dic_flattened = [flatten(d) for d in dic]
 ```
 which creates an array of flattened objects:
 ```python
@@ -64,4 +64,14 @@ The final result as a Pandas dataframe:
 2	0.8	1.8	NaN	NaN
 ```
 
-### 
+### Custom separator
+By default `_` is used to separate nested element. You can change this by passing the desired character:
+```python
+flatten({"a": [1]}, '|')
+```
+returns:
+```python
+{'a|0': 1}
+```
+
+Thanks to @jvalhondo, @drajen, and @azaitsev for pointing this out.

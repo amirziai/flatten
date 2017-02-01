@@ -5,13 +5,15 @@ def _join_all(*x):
 def flatten_json(input_, separator="_"):
     output = {}
 
-    def flatten(object_, name):
+    def _flatten(object_, name):
         if isinstance(object_, dict):
-            [flatten(object_[key], _join_all(name, separator, key)) for key in object_]
+            [_flatten(object_[key], _join_all(name, separator, key)) for key in object_]
         elif isinstance(object_, list):
-            [flatten(item, _join_all(name, separator, index)) for index, item in enumerate(object_)]
+            [_flatten(item, _join_all(name, separator, index)) for index, item in enumerate(object_)]
         else:
             output[name] = object_
 
-    flatten(input_, None)
+    _flatten(input_, None)
     return output
+
+flatten = flatten_json
