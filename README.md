@@ -82,11 +82,9 @@ Reverses the flattening process. Example usage:
 ```python
 dic = {
     'a': 1,
-    'b_0': 1,
-    'b_1': 2,
-    'c_a': 'a',
-    'c_b_0': 1,
-    'c_b_1': 2
+    'b_a': 2,
+    'b_b': 3,
+    'c_a_b': 5
 }
 unflatten(dic)
 ```
@@ -94,8 +92,8 @@ returns:
 ```python
 {
     'a': 1,
-    'b': [1, 2],
-    'c': {'a': 'a', 'b': [1, 2]}
+    'b': {'a': 2, 'b': 3},
+    'c': {'a': {'b': 5}}
 }
 ```
 
