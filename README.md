@@ -74,4 +74,35 @@ returns:
 {'a|0': 1}
 ```
 
-Thanks to @jvalhondo, @drajen, and @azaitsev for pointing this out.
+Thanks to [@jvalhondo](http://github.com/jvalhondo), [@drajen](http://github.com/drajen), and [@azaitsev](http://github.com/azaitsev) for contributing to this feature.
+
+
+### Unflatten
+Reverses the flattening process. Example usage:
+```python
+dic = {
+    'a': 1,
+    'b_a': 2,
+    'b_b': 3,
+    'c_a_b': 5
+}
+unflatten(dic)
+```
+returns:
+```python
+{
+    'a': 1,
+    'b': {'a': 2, 'b': 3},
+    'c': {'a': {'b': 5}}
+}
+```
+
+**Note**
+Currently this feature does not properly handle lists. `flatten` encodes key for list values with integer indices which makes it ambiguous for reversing the process. Consider this flattened dictionary:
+```python
+a = {'a': 1, 'b_0': 5}
+```
+
+Both `{'a': 1, 'b': [5]}` and `{'a': 1, 'b': {0: 5}}` are legitimate answers. For now this function is going to output the latter. Feel free to take this. If you do make sure you can passs the `test_unflatten_with_list` test which is currently failing. 
+
+Thanks to [@nmaas87](http://github.com/nmaas87) for requesting this feature.
