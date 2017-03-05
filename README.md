@@ -80,6 +80,8 @@ Thanks to [@jvalhondo](http://github.com/jvalhondo), [@drajen](http://github.com
 ### Unflatten
 Reverses the flattening process. Example usage:
 ```python
+from flatten_json import unflatten
+
 dic = {
     'a': 1,
     'b_a': 2,
@@ -97,12 +99,37 @@ returns:
 }
 ```
 
-**Note**
-Currently this feature does not properly handle lists. `flatten` encodes key for list values with integer indices which makes it ambiguous for reversing the process. Consider this flattened dictionary:
+### Unflatten with lists
+`flatten` encodes key for list values with integer indices which makes it ambiguous for reversing the process. Consider this flattened dictionary:
 ```python
 a = {'a': 1, 'b_0': 5}
 ```
 
-Both `{'a': 1, 'b': [5]}` and `{'a': 1, 'b': {0: 5}}` are legitimate answers. For now this function is going to output the latter. Feel free to take this. If you do make sure you can passs the `test_unflatten_with_list` test which is currently failing. 
+Both `{'a': 1, 'b': [5]}` and `{'a': 1, 'b': {0: 5}}` are legitimate answers.
+ 
+Calling `unflatten_list` the dictionary is first unflattened and then in a post-processing step the function looks for a list pattern (zero-indexed consecutive integer keys) and transforms the matched values into a list.
+ 
+Here's an example:
+```python
+from flatten_json import unflatten_list
+dic = {
+    'a': 1,
+    'b_0': 1,
+    'b_1': 2,
+    'c_a': 'a',
+    'c_b_0': 1,
+    'c_b_1': 2,
+    'c_b_2': 3
+}
+unflatten_list(dic)
+```
+returns:
+```python
+{
+    'a': 1,
+    'b': [1, 2],
+    'c': {'a': 'a', 'b': [1, 2, 3]}
+}
+```
 
 Thanks to [@nmaas87](http://github.com/nmaas87) for requesting this feature.
