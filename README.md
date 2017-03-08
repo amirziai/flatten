@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/amirziai/flatten.svg?branch=master)](https://travis-ci.org/amirziai/flatten)
+[![Build Status](https://travis-ci.org/amirziai/flatten.svg?branch=master)](https://travis-ci.org/amirziai/flatten) [![PyPI version](https://badge.fury.io/py/flatten_json.svg)](https://badge.fury.io/py/flatten_json)
 
 # flatten_json
 Flattens JSON objects in Python. ```flatten_json``` destroys the hierarchy in your object which can be useful if you want to force your objects into a table.
