@@ -1,9 +1,32 @@
 import unittest
 
-from flatten_json import flatten, unflatten
+from flatten_json import flatten, unflatten, unflatten_list
+from util import check_if_numbers_are_consecutive
 
 
 class UnitTests(unittest.TestCase):
+    def test_numbers_consecutive(self):
+        """Checks if all numbers in a list are consecutive integers"""
+        list_ = [1, 2, 3, 4, 5]
+        actual = check_if_numbers_are_consecutive(list_)
+        self.assertTrue(actual)
+
+        list_ = [0, 1, 5]
+        actual = check_if_numbers_are_consecutive(list_)
+        self.assertFalse(actual)
+
+        list_ = [1.0, 2.0, 3.0]
+        actual = check_if_numbers_are_consecutive(list_)
+        self.assertTrue(actual)
+
+        list_ = range(10)
+        actual = check_if_numbers_are_consecutive(list_)
+        self.assertTrue(actual)
+
+        list_ = range(10, 0, -1)
+        actual = check_if_numbers_are_consecutive(list_)
+        self.assertFalse(actual)
+
     def test_no_flatten(self):
         dic = {'a': '1', 'b': '2', 'c': 3}
         expected = dic
@@ -74,21 +97,27 @@ class UnitTests(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_unflatten_with_list(self):
-        """This test is currently failing, unflatten is not handling lists properly"""
+        """Dictionary with lists"""
         dic = {
             'a': 1,
             'b_0': 1,
             'b_1': 2,
             'c_a': 'a',
             'c_b_0': 1,
-            'c_b_1': 2
+            'c_b_1': 2,
+            'c_b_2': 3
         }
         expected = {
             'a': 1,
             'b': [1, 2],
-            'c': {'a': 'a', 'b': [1, 2]}
+            'c': {'a': 'a', 'b': [1, 2, 3]}
         }
-        actual = unflatten(dic)
+        actual = unflatten_list(dic)
+        self.assertEqual(actual, expected)
+
+        dic = {'a': 1, 'b_0': 5}
+        expected = {'a': 1, 'b': [5]}
+        actual = unflatten_list(dic)
         self.assertEqual(actual, expected)
 
 if __name__ == '__main__':
