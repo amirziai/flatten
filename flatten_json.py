@@ -100,7 +100,7 @@ def unflatten_list(flat_dict, separator='_'):
     _unflatten_asserts(flat_dict, separator)
 
     # First unflatten the dictionary assuming no lists exist
-    unflattened_dict = unflatten(flat_dict)
+    unflattened_dict = unflatten(flat_dict, separator)
 
     def _convert_dict_to_list(object_, parent_object, parent_object_key):
         if isinstance(object_, dict):
