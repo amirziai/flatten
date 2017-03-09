@@ -104,17 +104,19 @@ def unflatten_list(flat_dict, separator='_'):
 
     def _convert_dict_to_list(object_, parent_object, parent_object_key):
         if isinstance(object_, dict):
+            keys = []
             try:
-                keys = [int(key) for key in sorted(object_) if
-                        not isinstance(object_[key], Iterable) or isinstance(object_[key], str)]
-                keys_len = len(keys)
-                if (sum(keys) == int(((keys_len - 1) * keys_len) / 2) and keys[0] == 0 and keys[-1] == keys_len - 1 and
-                        check_if_numbers_are_consecutive(keys)):
-                    parent_object[parent_object_key] = [object_[str(key)] for key in keys]
+                keys = [int(key) for key in object_]
+                keys.sort()
             except (ValueError, TypeError):
-                for key in object_:
-                    if isinstance(object_[key], dict):
-                        _convert_dict_to_list(object_[key], object_, key)
+                pass
+            keys_len = len(keys)
+            if (keys_len and sum(keys) == int(((keys_len - 1) * keys_len) / 2) and keys[0] == 0 and
+                    keys[-1] == keys_len - 1 and check_if_numbers_are_consecutive(keys)):
+                parent_object[parent_object_key] = [object_[str(key)] for key in keys]
+            for key in object_:
+                if isinstance(object_[key], dict):
+                    _convert_dict_to_list(object_[key], object_, key)
 
     _convert_dict_to_list(unflattened_dict, None, None)
     return unflattened_dict

@@ -131,11 +131,11 @@ class UnitTests(unittest.TestCase):
         dic = {
             'a:b': 'str0',
             'c:0:d:0:e': 'str1',
-            'c:0:f': 'str2',
-            'c:0:g': 'str3',
             'c:1:d:0:e': 'str4',
             'c:1:f': 'str5',
+            'c:0:f': 'str2',
             'c:1:g': 'str6',
+            'c:0:g': 'str3',
             'h:d:0:e': 'str7',
             'h:i:0:f': 'str8',
             'h:i:0:g': 'str9'
