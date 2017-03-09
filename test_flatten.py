@@ -123,7 +123,44 @@ class UnitTests(unittest.TestCase):
         dic = {'a': 1, 'b:0': 5}
         expected = {'a': 1, 'b': [5]}
         actual = unflatten_list(dic, ':')
-        self.assertEqual(actual, expected)        
+        self.assertEqual(actual, expected)
+
+    def test_unflatten_with_list_custom_separator(self):
+        """Complex dictionary with lists"""
+        self.maxDiff = None
+        dic = {
+            'a:b': 'str0',
+            'c:0:d:0:e': 'str1',
+            'c:0:f': 'str2',
+            'c:0:g': 'str3',
+            'c:1:d:0:e': 'str4',
+            'c:1:f': 'str5',
+            'c:1:g': 'str6',
+            'h:d:0:e': 'str7',
+            'h:i:0:f': 'str8',
+            'h:i:0:g': 'str9'
+        }
+        expected = {
+            'a': {'b': 'str0'},
+            'c': [
+                {
+                    'd': [{'e': 'str1'}],
+                    'f': 'str2',
+                    'g': 'str3'
+                }, {
+                    'd': [{'e': 'str4'}],
+                    'f': 'str5',
+                    'g': 'str6'
+                }
+            ],
+            'h': {
+                'd': [{'e': 'str7'}],
+                'i': [{'f': 'str8', 'g': 'str9'}]
+            }
+        }
+        actual = unflatten_list(dic, ':')
+        self.assertEqual(actual, expected)
+
 
 if __name__ == '__main__':
     unittest.main()
