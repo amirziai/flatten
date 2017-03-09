@@ -120,5 +120,10 @@ class UnitTests(unittest.TestCase):
         actual = unflatten_list(dic)
         self.assertEqual(actual, expected)
 
+        dic = {'a': 1, 'b:0': 5}
+        expected = {'a': 1, 'b': [5]}
+        actual = unflatten_list(dic, ':')
+        self.assertEqual(actual, expected)        
+
 if __name__ == '__main__':
     unittest.main()
