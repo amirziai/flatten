@@ -127,7 +127,6 @@ class UnitTests(unittest.TestCase):
 
     def test_unflatten_with_list_custom_separator(self):
         """Complex dictionary with lists"""
-        self.maxDiff = None
         dic = {
             'a:b': 'str0',
             'c:0:d:0:e': 'str1',
