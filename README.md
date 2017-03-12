@@ -81,8 +81,7 @@ returns:
 Thanks to [@jvalhondo](http://github.com/jvalhondo), [@drajen](http://github.com/drajen), and [@azaitsev](http://github.com/azaitsev) for contributing to this feature.
 
 ### Ignore root keys
-By default `flatten` goes through all the keys in the object. If you are not interested in output from a set of keys you can pass this set as an argument to `root_keys_to_ignore`.:
-
+By default `flatten` goes through all the keys in the object. If you are not interested in output from a set of keys you can pass this set as an argument to `root_keys_to_ignore`:
 ```python
 dic = {
     'a': {'a': [1, 2, 3]},
