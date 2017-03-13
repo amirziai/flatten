@@ -1,12 +1,14 @@
 [![Build Status](https://travis-ci.org/amirziai/flatten.svg?branch=master)](https://travis-ci.org/amirziai/flatten) [![PyPI version](https://badge.fury.io/py/flatten_json.svg)](https://badge.fury.io/py/flatten_json)
 
 # flatten_json
-Flattens JSON objects in Python. ```flatten_json``` destroys the hierarchy in your object which can be useful if you want to force your objects into a table.
+Flattens JSON objects in Python. ```flatten_json``` flattens the hierarchy in your object which can be useful if you want to force your objects into a table.
 
 ### Installation
 ```
 pip install flatten_json
 ```
+
+# flatten
 
 ### Usage
 Let's say you have the following object:
@@ -45,7 +47,7 @@ dic = [
 ```
 We can apply `flatten` to each element in the array and then use pandas to capture the output as a dataframe:
 ```python
-dic_flattened = [flatten(d) for d in dic]
+dic_flattened = (flatten(d) for d in dic)
 ```
 which creates an array of flattened objects:
 ```python
@@ -78,8 +80,29 @@ returns:
 
 Thanks to [@jvalhondo](http://github.com/jvalhondo), [@drajen](http://github.com/drajen), and [@azaitsev](http://github.com/azaitsev) for contributing to this feature.
 
+### Ignore root keys
+By default `flatten` goes through all the keys in the object. If you are not interested in output from a set of keys you can pass this set as an argument to `root_keys_to_ignore`:
+```python
+dic = {
+    'a': {'a': [1, 2, 3]},
+    'b': {'b': 'foo', 'c': 'bar'},
+    'c': {'c': [{'foo': 5, 'bar': 6, 'baz': [1, 2, 3]}]}
+}
+flatten(dic, root_keys_to_ignore={'b', 'c'})
+```
+returns:
+```python
+{
+    'a_a_0': 1,
+    'a_a_1': 2,
+    'a_a_2': 3
+}
+```
+This feature can prevent unnecessary processing which is a concern with deeply nested objects. 
 
-### Unflatten
+Thanks to [@mcarans](http://github.com/jvalhondo) and [@aquilax](http://github.com/drajen) for requesting and helping with fleshing out this feature.
+
+# unflatten
 Reverses the flattening process. Example usage:
 ```python
 from flatten_json import unflatten
@@ -134,4 +157,4 @@ returns:
 }
 ```
 
-Thanks to [@nmaas87](http://github.com/nmaas87) for requesting this feature.
+Thanks to [@nmaas87](http://github.com/nmaas87) for requesting this feature and [@aquilax](http://github.com/aquilax) for making it actually work.
