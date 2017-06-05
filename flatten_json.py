@@ -131,3 +131,16 @@ def unflatten_list(flat_dict, separator='_'):
 
     _convert_dict_to_list(unflattened_dict, None, None)
     return unflattened_dict
+
+def _normalize_asserts(nested_dict, separator, separators_to_remove):
+    assert isinstance(nested_dict, dict), "normalize requires a dictionary input"
+    assert isinstance(separator, str), "separator must be a string"
+    assert all(isinstance(value, str) or isinstance(value, type(None))
+                for value in list(separators_to_remove)), "separators to remove must all be strings, or be empty"
+
+def normalize(nested_dict, separator="_" root_keys_to_ignore=set(), dupes=dict(), separators_to_remove=set()):
+    flattened_dict = flatten(nested_dict, separator, root_keys_to_ignore=root_keys_to_ignore, dupes=dupes)
+    for sep_ in list(separators_to_remove):
+        unflattened_dict = unflatten(flat_data, separator)
+        flattened_dict = flatten(unflat_data, separator, root_keys_to_ignore=root_keys_to_ignore, dupes=dupes)
+    return flattened_dict
