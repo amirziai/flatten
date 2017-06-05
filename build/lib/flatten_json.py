@@ -50,10 +50,10 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set(), dupes=dict())
             for index, item in enumerate(object_):
                 _flatten(item, _construct_key(key, separator, index))
         else:
-            if key not in flattened_dict:
-                flattened_dict[key] = object_
-            else:
+            if key in flattened_dict:
                 dupes[key] = object_
+            else:
+                flattened_dict[key] = object_
 
     _flatten(nested_dict, None)
     return flattened_dict
