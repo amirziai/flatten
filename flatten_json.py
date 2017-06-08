@@ -141,9 +141,9 @@ def _normalize_asserts(nested_dict, separators_to_remove, separator):
 
 def normalize(nested_dict, separators_to_remove, dupes, separator="_", root_keys_to_ignore=set()):
     """
-    normalize a dictionary to replace all separators in separators_to_replace with
+    Normalize a dictionary to replace all values in separators_to_replace with
     the one separator in separator. Entries after normalization that are
-    duplicates,  are stored in a list passed in
+    duplicates, are stored in dupes
 
     :param nested_dict: dictionary we want to flatten and normalize
     :param dupes: a list of one item dicts [ {key : value}, ... ], to store any duplicate entries in
