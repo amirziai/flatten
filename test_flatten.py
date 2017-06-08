@@ -244,5 +244,36 @@ class UnitTests(unittest.TestCase):
         self.assertEqual(actual, expected)
         self.assertEqual(dupes, expected_dupes)
 
+    def test_normalize_expd_with_dupes(self):
+        """Change a simple dict from one separator to another with dupes"""
+        dic = {
+            'a': 1,
+            'b.a': 2,
+            'b_a': 2,
+            'b.b': 3,
+            'c.a.b': 5,
+            'c_a.b': 5,
+            'z': [{'d': [2, 3, 4], 'e': [{'f': 1, 'g': 2}]}]
+        }
+        expected = {
+            'a': 1,
+            'b_a': 2,
+            'b_b': 3,
+            'c_a_b': 5,
+            'z_0_d_0': 2,
+            'z_0_d_1': 3,
+            'z_0_d_2': 4,
+            'z_0_e_0_f': 1,
+            'z_0_e_0_g': 2
+        }
+        expected_dupes = [
+            {'b_a': 2},
+            {'c_a_b': 5}
+        ]
+        dupes = []
+        actual = normalize(dic, {'.'}, dupes)
+        self.assertEqual(actual, expected)
+        self.assertEqual(dupes, expected_dupes)
+
 if __name__ == '__main__':
     unittest.main()
