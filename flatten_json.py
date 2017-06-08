@@ -135,10 +135,10 @@ def unflatten_list(flat_dict, separator='_'):
 def _normalize_asserts(nested_dict, separator, separators_to_remove):
     assert isinstance(nested_dict, dict), "normalize requires a dictionary input"
     assert isinstance(separator, str), "separator must be a string"
-    assert all(isinstance(value, str) or isinstance(value, type(None))
-                for value in list(separators_to_remove)), "separators to remove must all be strings, or be empty"
+    for value in list(separators_to_remove):
+        assert isinstance(value, str), "separators to remove must all be strings"
 
-def normalize(nested_dict, dupes, separator="_", root_keys_to_ignore=set(), separators_to_remove=set()):
+def normalize(nested_dict, separators_to_remove, dupes, separator="_", root_keys_to_ignore=set()):
     """
     normalize a dictionary to replace all separators in separators_to_replace with
     the one separator in separator. Entries after normalization that are
