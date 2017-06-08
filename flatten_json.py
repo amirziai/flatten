@@ -153,6 +153,6 @@ def normalize(nested_dict, separators_to_remove, dupes, separator="_", root_keys
     """
     flattened_dict = flatten(nested_dict, separator, root_keys_to_ignore=root_keys_to_ignore, dupes=dupes)
     for sep_ in list(separators_to_remove):
-        unflattened_dict = unflatten(flattened_dict, separator)
+        unflattened_dict = unflatten(flattened_dict, sep_)
         flattened_dict = flatten(unflattened_dict, separator, root_keys_to_ignore=root_keys_to_ignore, dupes=dupes)
     return flattened_dict
