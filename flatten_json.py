@@ -17,7 +17,7 @@ def _construct_key(previous_key, separator, new_key):
         return new_key
 
 
-def flatten(nested_dict, separator="_", root_keys_to_ignore=set(), dupes=dict()):
+def flatten(nested_dict, separator="_", root_keys_to_ignore=set(), dupes=list()):
     """
     Flattens a dictionary with nested structure to a dictionary with no hierarchy
     Consider ignoring keys that you are not interested in to prevent unnecessary processing
@@ -53,7 +53,7 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set(), dupes=dict())
             if key not in flattened_dict:
                 flattened_dict[key] = object_
             else:
-                dupes[key] = object_
+                dupes.append({key : object_})
 
     _flatten(nested_dict, None)
     return flattened_dict
@@ -138,7 +138,7 @@ def _normalize_asserts(nested_dict, separator, separators_to_remove):
     assert all(isinstance(value, str) or isinstance(value, type(None))
                 for value in list(separators_to_remove)), "separators to remove must all be strings, or be empty"
 
-def normalize(nested_dict, separator="_" root_keys_to_ignore=set(), dupes=dict(), separators_to_remove=set()):
+def normalize(nested_dict, dupes, separator="_" root_keys_to_ignore=set(), separators_to_remove=set()):
     flattened_dict = flatten(nested_dict, separator, root_keys_to_ignore=root_keys_to_ignore, dupes=dupes)
     for sep_ in list(separators_to_remove):
         unflattened_dict = unflatten(flat_data, separator)
