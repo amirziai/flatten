@@ -138,9 +138,9 @@ def _normalize_asserts(nested_dict, separator, separators_to_remove):
     assert all(isinstance(value, str) or isinstance(value, type(None))
                 for value in list(separators_to_remove)), "separators to remove must all be strings, or be empty"
 
-def normalize(nested_dict, dupes, separator="_" root_keys_to_ignore=set(), separators_to_remove=set()):
+def normalize(nested_dict, dupes, separator="_", root_keys_to_ignore=set(), separators_to_remove=set()):
     flattened_dict = flatten(nested_dict, separator, root_keys_to_ignore=root_keys_to_ignore, dupes=dupes)
     for sep_ in list(separators_to_remove):
-        unflattened_dict = unflatten(flat_data, separator)
-        flattened_dict = flatten(unflat_data, separator, root_keys_to_ignore=root_keys_to_ignore, dupes=dupes)
+        unflattened_dict = unflatten(flattened_dict, separator)
+        flattened_dict = flatten(unflattened_dict, separator, root_keys_to_ignore=root_keys_to_ignore, dupes=dupes)
     return flattened_dict
