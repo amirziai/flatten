@@ -132,9 +132,10 @@ def unflatten_list(flat_dict, separator='_'):
     _convert_dict_to_list(unflattened_dict, None, None)
     return unflattened_dict
 
-def _normalize_asserts(nested_dict, separator, separators_to_remove):
+def _normalize_asserts(nested_dict, separators_to_remove, separator):
     assert isinstance(nested_dict, dict), "normalize requires a dictionary input"
     assert isinstance(separator, str), "separator must be a string"
+    assert isinstance(separators_to_remove, set), "separators to remove must be a set"
     for value in list(separators_to_remove):
         assert isinstance(value, str), "separators to remove must all be strings"
 
@@ -151,6 +152,7 @@ def normalize(nested_dict, separators_to_remove, dupes, separator="_", root_keys
     :param separators_to_remove: set of separators we want to remove from  the dict
     :return: flattened and normalized dictionary
     """
+    _normalize_asserts(nested_dict, separators_to_remove, separator)
     flattened_dict = flatten(nested_dict, separator, root_keys_to_ignore=root_keys_to_ignore, dupes=dupes)
     for sep_ in list(separators_to_remove):
         unflattened_dict = unflatten(flattened_dict, sep_)
