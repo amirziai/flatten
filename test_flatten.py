@@ -1,6 +1,6 @@
 import unittest
 
-from flatten_json import flatten, unflatten, unflatten_list
+from flatten_json import flatten, unflatten, unflatten_list, normalize
 from util import check_if_numbers_are_consecutive
 
 
@@ -175,6 +175,49 @@ class UnitTests(unittest.TestCase):
         actual = flatten(dic, root_keys_to_ignore={'b', 'c'})
         self.assertEqual(actual, expected)
 
+    def test_normalize_with_one_key(self):
+        """Change a simple dict from one separator to another"""
+        dic = {
+            'a': 1,
+            'b.a': 2,
+            'b.b': 3,
+            'c.a.b': 5
+        }
+        expected = {
+            'a': 1,
+            'b_a': 2,
+            'b_b': 3,
+            'c_a_b': 5
+        }
+        dupes = []
+        actual = normalize(dic, {'.'}, dupes)
+        self.assertEqual(actual, expected)
+        self.assertEqual(dupes, [])
+
+    def test_normalize_with_multiple_keys(self):
+        """Change a dict with multiple separators to only one separator"""
+        dic = {
+            'a': 1,
+            'b.a': 2,
+            'b:b': 3,
+            'c.a:b': 5,
+            'c.a:b_d': 6,
+            'c_a:b_e': 7,
+            'd:x_y.z': 8
+        }
+        expected = {
+            'a': 1,
+            'b_a': 2,
+            'b_b': 3,
+            'c_a_b': 5,
+            'c_a_b_d': 6,
+            'c_a_b_e': 7,
+            'd_x_y_z': 8
+        }
+        dupes = []
+        actual = normalize(dic, {'.', ':'}, dupes)
+        self.assertEqual(actual, expected)
+        self.assertEqual(dupes, [])
 
 if __name__ == '__main__':
     unittest.main()
