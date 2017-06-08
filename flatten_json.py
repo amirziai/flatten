@@ -53,7 +53,7 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set(), dupes=None):
             if key not in flattened_dict:
                 flattened_dict[key] = object_
             else:
-                if not dupes:
+                if dupes is None:
                     msg = "{}{}{}{}".format("""A duplicate was encountered but the
                                             dupes list passed in was None. The
                                             duplicate key was: """, key,
