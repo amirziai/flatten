@@ -194,7 +194,7 @@ class UnitTests(unittest.TestCase):
         self.assertEqual(actual, expected)
         self.assertEqual(dupes, [])
 
-    def test_normalize_with_multiple_keys(self):
+    def test_normalize_with_mult_keys(self):
         """Change a dict with multiple separators to only one separator"""
         dic = {
             'a': 1,
@@ -218,6 +218,31 @@ class UnitTests(unittest.TestCase):
         actual = normalize(dic, {'.', ':'}, dupes)
         self.assertEqual(actual, expected)
         self.assertEqual(dupes, [])
+
+    def test_normalize_with_dupes(self):
+        """Change a simple dict from one separator to another with dupes"""
+        dic = {
+            'a': 1,
+            'b.a': 2,
+            'b_a': 2,
+            'b.b': 3,
+            'c.a.b': 5,
+            'c_a.b': 5
+        }
+        expected = {
+            'a': 1,
+            'b_a': 2,
+            'b_b': 3,
+            'c_a_b': 5
+        }
+        expected_dupes = [
+            {'b_a': 2},
+            {'c_a_b': 5}
+        ]
+        dupes = []
+        actual = normalize(dic, {'.'}, dupes)
+        self.assertEqual(actual, expected)
+        self.assertEqual(dupes, expected_dupes)
 
 if __name__ == '__main__':
     unittest.main()
