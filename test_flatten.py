@@ -242,6 +242,8 @@ class UnitTests(unittest.TestCase):
         dupes = []
         actual = normalize(dic, {'.'}, dupes)
         self.assertEqual(actual, expected)
+
+        dupes = sorted(dupes, key=lambda dic: list(dic.keys())[0])
         self.assertEqual(dupes, expected_dupes)
 
     def test_normalize_expd_with_dupes(self):
@@ -273,6 +275,8 @@ class UnitTests(unittest.TestCase):
         dupes = []
         actual = normalize(dic, {'.'}, dupes)
         self.assertEqual(actual, expected)
+
+        dupes = sorted(dupes, key=lambda dic: list(dic.keys())[0])
         self.assertEqual(dupes, expected_dupes)
 
 if __name__ == '__main__':
