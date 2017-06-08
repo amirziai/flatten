@@ -17,7 +17,7 @@ def _construct_key(previous_key, separator, new_key):
         return new_key
 
 
-def flatten(nested_dict, separator="_", root_keys_to_ignore=set(), dupes=list()):
+def flatten(nested_dict, separator="_", root_keys_to_ignore=set(), dupes=None):
     """
     Flattens a dictionary with nested structure to a dictionary with no hierarchy
     Consider ignoring keys that you are not interested in to prevent unnecessary processing
@@ -53,6 +53,12 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set(), dupes=list())
             if key not in flattened_dict:
                 flattened_dict[key] = object_
             else:
+                if not dupes:
+                    msg = "{}{}{}{}".format("""A duplicate was encountered but the
+                                            dupes list passed in was None. The
+                                            duplicate key was: """, key,
+                                            " The duplicate object was: ", object_)
+                    raise Exception(msg)
                 dupes.append({key : object_})
 
     _flatten(nested_dict, None)
