@@ -154,15 +154,16 @@ def normalize(nested_dict, separators_to_remove, dupes, separator="_", root_keys
     duplicates, are stored in dupes
 
     :param nested_dict: dictionary we want to flatten and normalize
+    :param separators_to_remove: set of separators we want to remove from  the dict
     :param dupes: a list of one item dicts [ {key : value}, ... ], to store any duplicate entries in
     :param separator: string to separate dictionary keys by
     :param root_keys_to_ignore: set of root keys to ignore from flattening
-    :param separators_to_remove: set of separators we want to remove from  the dict
     :return: flattened and normalized dictionary
     """
     _normalize_asserts(nested_dict, separators_to_remove, separator)
-    flattened_dict = flatten(nested_dict, separator, root_keys_to_ignore=root_keys_to_ignore, dupes=dupes)
+    flattened_dict = flatten(nested_dict, separator, root_keys_to_ignore, dupes)
     for sep_ in list(separators_to_remove):
         unflattened_dict = unflatten(flattened_dict, sep_)
-        flattened_dict = flatten(unflattened_dict, separator, root_keys_to_ignore=root_keys_to_ignore, dupes=dupes)
+        flattened_dict = flatten(unflattened_dict, separator,
+                                 root_keys_to_ignore, dupes=dupes)
     return flattened_dict
