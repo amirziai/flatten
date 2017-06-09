@@ -2,6 +2,7 @@
 
 # flatten_json
 Flattens JSON objects in Python. ```flatten_json``` flattens the hierarchy in your object which can be useful if you want to force your objects into a table.
+Can also normalize your JSON objects, so all objects use the same separator, and all are flattened, or unflattened.
 
 ### Installation
 ```
@@ -158,3 +159,7 @@ returns:
 ```
 
 Thanks to [@nmaas87](http://github.com/nmaas87) for requesting this feature and [@aquilax](http://github.com/aquilax) for making it actually work.
+
+
+### Normalization
+TODO
