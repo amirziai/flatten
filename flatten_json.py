@@ -62,6 +62,8 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set(), dupes=None):
                 dupes.append({key : object_})
 
     _flatten(nested_dict, None)
+    if dupes is not None:
+        dupes[:] = sorted(dupes, key=lambda dic: list(dic.keys())[0])
     return flattened_dict
 
 flatten_json = flatten
