@@ -175,6 +175,15 @@ class UnitTests(unittest.TestCase):
         actual = flatten(dic, root_keys_to_ignore={'b', 'c'})
         self.assertEqual(actual, expected)
 
+    def test_flatten_exception(self):
+        """Verify that if the dic has a dupe, and you don't pass in a list, an
+        exception is thrown"""
+        dic = {
+            'b.a': 2,
+            'b_a': 2,
+        }
+        self.assertRaises(Exception, flatten(dic))
+
     def test_normalize_with_one_key(self):
         """Change a simple dict from one separator to another"""
         dic = {
