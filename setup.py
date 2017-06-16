@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='flatten_json',
     packages=[''],
-    version='0.1.5',
+    version='0.1.6',
     description='Flatten JSON objects',
     author='Amir Ziai',
     author_email='arziai@gmail.com',
