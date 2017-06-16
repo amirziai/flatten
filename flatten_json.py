@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from collections import Iterable
 
 from util import check_if_numbers_are_consecutive
