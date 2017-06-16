@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import unittest
 
 from flatten_json import flatten, unflatten, unflatten_list
@@ -39,6 +42,15 @@ class UnitTests(unittest.TestCase):
                'c': {'c1': '3', 'c2': '4'}
                }
         expected = {'a': '1', 'b': '2', 'c_c1': '3', 'c_c2': '4'}
+        actual = flatten(dic)
+        self.assertEqual(actual, expected)
+
+    def test_one_flatten_utf8(self):
+        dic = {'a': '1',
+               'ñ': 'áéö',
+               'c': {'c1': '3', 'c2': '4'}
+               }
+        expected = {'a': '1', 'ñ': 'áéö', 'c_c1': '3', 'c_c2': '4'}
         actual = flatten(dic)
         self.assertEqual(actual, expected)
 
