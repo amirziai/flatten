@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/amirziai/flatten.svg?branch=master)](https://travis-ci.org/amirziai/flatten) [![PyPI version](https://badge.fury.io/py/flatten_json.svg)](https://badge.fury.io/py/flatten_json)
+[![Build Status](https://travis-ci.org/amirziai/flatten.svg?branch=master)](https://travis-ci.org/amirziai/flatten) [![PyPI version](https://badge.fury.io/py/flatten_json.svg)](https://badge.fury.io/py/flatten_json) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/7ae779ec4e99462f907c5afecfd5de48)](https://www.codacy.com/app/amirziai/flatten?utm_source=github.com&utm_medium=referral&utm_content=amirziai/flatten&utm_campaign=Badge_Coverage) 
 
 # flatten_json
 Flattens JSON objects in Python. ```flatten_json``` flattens the hierarchy in your object which can be useful if you want to force your objects into a table.
