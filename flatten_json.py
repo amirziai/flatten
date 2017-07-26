@@ -20,7 +20,7 @@ def _construct_key(previous_key, separator, new_key):
         return new_key
 
 
-def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
+def flatten(nested_dict, separator="_", root_keys_to_ignore=set(), dupes=None):
     """
     Flattens a dictionary with nested structure to a dictionary with no hierarchy
     Consider ignoring keys that you are not interested in to prevent unnecessary processing
@@ -53,9 +53,20 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
             for index, item in enumerate(object_):
                 _flatten(item, _construct_key(key, separator, index))
         else:
-            flattened_dict[key] = object_
+            if key not in flattened_dict:
+                flattened_dict[key] = object_
+            else:
+                if dupes is None:
+                    msg = "{}{}{}{}".format("""A duplicate was encountered but the
+                                            dupes list passed in was None. The
+                                            duplicate key was: """, key,
+                                            " The duplicate object was: ", object_)
+                    raise Exception(msg)
+                dupes.append({key : object_})
 
     _flatten(nested_dict, None)
+    if dupes is not None:
+        dupes[:] = sorted(dupes, key=lambda dic: list(dic.keys())[0])
     return flattened_dict
 
 flatten_json = flatten
@@ -131,3 +142,33 @@ def unflatten_list(flat_dict, separator='_'):
 
     _convert_dict_to_list(unflattened_dict, None, None)
     return unflattened_dict
+
+
+def _normalize_asserts(nested_dict, separators_to_remove, separator):
+    assert isinstance(nested_dict, dict), "normalize requires a dictionary input"
+    assert isinstance(separator, str), "separator must be a string"
+    assert isinstance(separators_to_remove, set), "separators to remove must be a set"
+    for value in list(separators_to_remove):
+        assert isinstance(value, str), "separators to remove must all be strings"
+
+
+def normalize(nested_dict, separators_to_remove, dupes, separator="_", root_keys_to_ignore=set()):
+    """
+    Normalize a dictionary to replace all values in separators_to_replace with
+    the one separator in separator. Entries after normalization that are
+    duplicates, are stored in dupes
+
+    :param nested_dict: dictionary we want to flatten and normalize
+    :param separators_to_remove: set of separators we want to remove from  the dict
+    :param dupes: a list of one item dicts [ {key : value}, ... ], to store any duplicate entries in
+    :param separator: string to separate dictionary keys by
+    :param root_keys_to_ignore: set of root keys to ignore from flattening
+    :return: flattened and normalized dictionary
+    """
+    _normalize_asserts(nested_dict, separators_to_remove, separator)
+    flattened_dict = flatten(nested_dict, separator, root_keys_to_ignore, dupes)
+    for sep_ in list(separators_to_remove):
+        unflattened_dict = unflatten(flattened_dict, sep_)
+        flattened_dict = flatten(unflattened_dict, separator,
+                                 root_keys_to_ignore, dupes=dupes)
+    return flattened_dict
