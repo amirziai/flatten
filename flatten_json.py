@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
 from collections import Iterable
 
 from util import check_if_numbers_are_consecutive
@@ -131,3 +132,12 @@ def unflatten_list(flat_dict, separator='_'):
 
     _convert_dict_to_list(unflattened_dict, None, None)
     return unflattened_dict
+
+def cli(input_stream=sys.stdin, output_stream=sys.stdout):
+    import json
+    raw = input_stream.read()
+    input_json = json.loads(raw)
+    json.dump(flatten(input_json), output_stream)
+
+if __name__ == '__main__':
+    cli()

@@ -157,4 +157,15 @@ returns:
 }
 ```
 
+# Command line invocation
+This library can be used to flatten json read from standard input at the command line.
+```bash
+>>> echo '{"a": {"b": 1}}' | python -m flatten_json
+{"a_b": 1}
+
+>>> echo '{"a": {"b": 1}}' | flatten_json
+{"a_b": 1}%-
+```
+
+# Acknowledgements
 Thanks to [@nmaas87](http://github.com/nmaas87) for requesting this feature and [@aquilax](http://github.com/aquilax) for making it actually work.

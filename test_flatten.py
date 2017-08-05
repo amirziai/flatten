@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import json
+from io import StringIO
 
-from flatten_json import flatten, unflatten, unflatten_list
+from flatten_json import flatten, unflatten, unflatten_list, cli
 from util import check_if_numbers_are_consecutive
 
 
@@ -186,6 +188,13 @@ class UnitTests(unittest.TestCase):
         }
         actual = flatten(dic, root_keys_to_ignore={'b', 'c'})
         self.assertEqual(actual, expected)
+
+    def test_command_line(self):
+        input_stream = StringIO(u'{"a": {"b": 1}}')
+        output_stream = StringIO()
+        cli(input_stream, output_stream)
+        output = output_stream.getvalue()
+        json.loads(output)
 
 
 if __name__ == '__main__':
