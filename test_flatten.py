@@ -197,7 +197,8 @@ class UnitTests(unittest.TestCase):
         output_stream = StringIO()
         cli(input_stream, output_stream)
         output = output_stream.getvalue()
-        json.loads(output)
+        result = json.loads(output)
+        self.assertEqual(result, dict(a_b=1))
 
 
 if __name__ == '__main__':
