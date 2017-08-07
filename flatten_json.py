@@ -137,7 +137,8 @@ def cli(input_stream=sys.stdin, output_stream=sys.stdout):
     import json
     raw = input_stream.read()
     input_json = json.loads(raw)
-    json.dump(flatten(input_json), output_stream)
+    output = json.dumps(flatten(input_json))
+    output_stream.write(output)
 
 if __name__ == '__main__':
     cli()

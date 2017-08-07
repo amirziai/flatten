@@ -3,7 +3,10 @@
 
 import unittest
 import json
-from io import StringIO
+try:
+    from StringIO import StringIO
+except:
+    from io import StringIO
 
 from flatten_json import flatten, unflatten, unflatten_list, cli
 from util import check_if_numbers_are_consecutive
