@@ -4,8 +4,10 @@
 import unittest
 import json
 try:
+    # python2
     from StringIO import StringIO
-except:
+except ImportError:
+    # python3
     from io import StringIO
 
 from flatten_json import flatten, unflatten, unflatten_list, cli
