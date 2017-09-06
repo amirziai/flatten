@@ -54,12 +54,20 @@ class UnitTests(unittest.TestCase):
 
     def test_one_flatten_utf8(self):
         dic = {'a': '1',
-               'ñ': 'áéö',
-               'c': {'c1': '3', 'c2': '4'}
+               u'ñ': u'áéö',
+               'c': {u'c1': '3', 'c2': '4'}
                }
-        expected = {'a': '1', 'ñ': 'áéö', 'c_c1': '3', 'c_c2': '4'}
+        expected = {'a': '1', u'ñ': u'áéö', 'c_c1': '3', 'c_c2': '4'}
         actual = flatten(dic)
         self.assertEqual(actual, expected)
+
+    def test_one_flatten_utf8_dif(self):
+        a = {u'eñe': 1}
+        info = dict(info=a)
+        expected = {u'info_{}'.format(u'eñe'): 1}
+        actual = flatten(info)
+        self.assertEqual(actual, expected)
+
 
     def test_custom_separator(self):
         dic = {'a': '1',
