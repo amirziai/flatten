@@ -16,7 +16,7 @@ def _construct_key(previous_key, separator, new_key):
     :return: a string if previous_key exists and simply passes through the new_key otherwise
     """
     if previous_key:
-        return "{}{}{}".format(previous_key, separator, new_key)
+        return u"{}{}{}".format(previous_key, separator, new_key)
     else:
         return new_key
 
