@@ -5,7 +5,7 @@ import sys
 from collections import Iterable
 
 from util import check_if_numbers_are_consecutive
-
+import six
 
 def _construct_key(previous_key, separator, new_key):
     """
@@ -33,7 +33,7 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
     :return: flattened dictionary
     """
     assert isinstance(nested_dict, dict), "flatten requires a dictionary input"
-    assert isinstance(separator, str), "separator must be a string"
+    assert isinstance(separator, six.string_types), "separator must be a string"
 
     # This global dictionary stores the flattened keys and values and is ultimately returned
     flattened_dict = dict()
@@ -64,8 +64,8 @@ flatten_json = flatten
 
 def _unflatten_asserts(flat_dict, separator):
     assert isinstance(flat_dict, dict), "un_flatten requires a dictionary input"
-    assert isinstance(separator, str), "separator must be a string"
-    assert all((not isinstance(value, Iterable) or isinstance(value, str)
+    assert isinstance(separator, six.string_types), "separator must be a string"
+    assert all((not isinstance(value, Iterable) or isinstance(value, six.string_types)
                 for value in flat_dict.values())), "provided dictionary is not flat"
 
 
