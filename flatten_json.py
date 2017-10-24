@@ -46,7 +46,9 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
         :param key: carries the concatenated key for the object_
         :return: None
         """
-        if isinstance(object_, dict):
+        if not object_:
+            flattened_dict[key] = object_
+        elif isinstance(object_, dict):
             for object_key in object_:
                 if not (not key and object_key in root_keys_to_ignore):
                     _flatten(object_[object_key], _construct_key(key, separator, object_key))

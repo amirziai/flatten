@@ -97,6 +97,16 @@ class UnitTests(unittest.TestCase):
         actual = flatten(dic)
         self.assertEqual(actual, expected)
 
+    def test_empty_list_and_dict(self):
+        dic = {
+            'a': {},
+            'b': [],
+            'c': [{'d': [], 'e': [{'f': {}, 'g': []}]}]
+        }
+        expected = {'a': {}, 'b': [], 'c_0_d': [], 'c_0_e_0_f': {}, 'c_0_e_0_g': []}
+        actual = flatten(dic)
+        self.assertEqual(actual, expected)
+
     def test_blog_example(self):
         dic = {
             "a": 1,
