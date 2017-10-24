@@ -67,7 +67,7 @@ flatten_json = flatten
 def _unflatten_asserts(flat_dict, separator):
     assert isinstance(flat_dict, dict), "un_flatten requires a dictionary input"
     assert isinstance(separator, six.string_types), "separator must be a string"
-    assert all((not isinstance(value, Iterable) or isinstance(value, six.string_types)
+    assert all((not value or not isinstance(value, Iterable) or isinstance(value, six.string_types)
                 for value in flat_dict.values())), "provided dictionary is not flat"
 
 
