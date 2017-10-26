@@ -197,6 +197,22 @@ class UnitTests(unittest.TestCase):
         actual = unflatten_list(dic, ':')
         self.assertEqual(actual, expected)
 
+    def test_unflatten_typeerror(self):
+        """
+        Can't redefine value of existing dict
+        """
+        dic = {
+            'a.b': 1, 
+            'a': 2
+        }
+        expected = {
+            'a': {'b': 1}
+        }
+        #actual = unflatten(dic)
+        #self.assertEqual(actual, expected)
+        self.assertRaises(ValueError, lambda: unflatten(dic))
+        #self.assertRaises(ValueError, unflatten(dic))
+
     def test_flatten_ignore_keys(self):
         """Ignore a set of root keys for processing"""
         dic = {
