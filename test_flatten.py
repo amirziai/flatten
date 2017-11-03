@@ -101,9 +101,12 @@ class UnitTests(unittest.TestCase):
         dic = {
             'a': {},
             'b': [],
-            'c': [{'d': [], 'e': [{'f': {}, 'g': []}]}]
+            'c': '',
+            'd': None,
+            'e': [{'f': [], 'g': [{'h': {}, 'i': [], 'j': '', 'k': None}]}]
         }
-        expected = {'a': {}, 'b': [], 'c_0_d': [], 'c_0_e_0_f': {}, 'c_0_e_0_g': []}
+        expected = {'a': {}, 'b': [], 'c': '', 'd': None,
+                    'e_0_f': [], 'e_0_g_0_h': {}, 'e_0_g_0_i': [], 'e_0_g_0_j': '', 'e_0_g_0_k': None}
         actual = flatten(dic)
         self.assertEqual(actual, expected)
 
@@ -196,22 +199,6 @@ class UnitTests(unittest.TestCase):
         }
         actual = unflatten_list(dic, ':')
         self.assertEqual(actual, expected)
-
-    def test_unflatten_typeerror(self):
-        """
-        Can't redefine value of existing dict
-        """
-        dic = {
-            'a.b': 1, 
-            'a': 2
-        }
-        expected = {
-            'a': {'b': 1}
-        }
-        #actual = unflatten(dic)
-        #self.assertEqual(actual, expected)
-        self.assertRaises(ValueError, lambda: unflatten(dic))
-        #self.assertRaises(ValueError, unflatten(dic))
 
     def test_flatten_ignore_keys(self):
         """Ignore a set of root keys for processing"""

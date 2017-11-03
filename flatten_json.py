@@ -46,8 +46,10 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
         :param key: carries the concatenated key for the object_
         :return: None
         """
+        # Empty object can't be iterated, take as is
         if not object_:
             flattened_dict[key] = object_
+        # These object types support iteration
         elif isinstance(object_, dict):
             for object_key in object_:
                 if not (not key and object_key in root_keys_to_ignore):
@@ -55,6 +57,7 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
         elif isinstance(object_, list) or isinstance(object_, set):
             for index, item in enumerate(object_):
                 _flatten(item, _construct_key(key, separator, index))
+        # Anything left take as is
         else:
             flattened_dict[key] = object_
 
