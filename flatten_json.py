@@ -46,13 +46,18 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
         :param key: carries the concatenated key for the object_
         :return: None
         """
-        if isinstance(object_, dict):
+        # Empty object can't be iterated, take as is
+        if not object_:
+            flattened_dict[key] = object_
+        # These object types support iteration
+        elif isinstance(object_, dict):
             for object_key in object_:
                 if not (not key and object_key in root_keys_to_ignore):
                     _flatten(object_[object_key], _construct_key(key, separator, object_key))
         elif isinstance(object_, list) or isinstance(object_, set):
             for index, item in enumerate(object_):
                 _flatten(item, _construct_key(key, separator, index))
+        # Anything left take as is
         else:
             flattened_dict[key] = object_
 
@@ -65,7 +70,7 @@ flatten_json = flatten
 def _unflatten_asserts(flat_dict, separator):
     assert isinstance(flat_dict, dict), "un_flatten requires a dictionary input"
     assert isinstance(separator, six.string_types), "separator must be a string"
-    assert all((not isinstance(value, Iterable) or isinstance(value, six.string_types)
+    assert all((not value or not isinstance(value, Iterable) or isinstance(value, six.string_types)
                 for value in flat_dict.values())), "provided dictionary is not flat"
 
 
