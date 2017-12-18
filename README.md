@@ -3,12 +3,12 @@
 # flatten_json
 Flattens JSON objects in Python. ```flatten_json``` flattens the hierarchy in your object which can be useful if you want to force your objects into a table.
 
-### Installation
-```
+## Installation
+```bash
 pip install flatten_json
 ```
 
-# flatten
+## flatten
 
 ### Usage
 Let's say you have the following object:
@@ -78,8 +78,6 @@ returns:
 {'a|0': 1}
 ```
 
-Thanks to [@jvalhondo](http://github.com/jvalhondo), [@drajen](http://github.com/drajen), and [@azaitsev](http://github.com/azaitsev) for contributing to this feature.
-
 ### Ignore root keys
 By default `flatten` goes through all the keys in the object. If you are not interested in output from a set of keys you can pass this set as an argument to `root_keys_to_ignore`:
 ```python
@@ -98,11 +96,9 @@ returns:
     'a_a_2': 3
 }
 ```
-This feature can prevent unnecessary processing which is a concern with deeply nested objects. 
+This feature can prevent unnecessary processing which is a concern with deeply nested objects.
 
-Thanks to [@mcarans](http://github.com/jvalhondo) and [@aquilax](http://github.com/drajen) for requesting and helping with fleshing out this feature.
-
-# unflatten
+## unflatten
 Reverses the flattening process. Example usage:
 ```python
 from flatten_json import unflatten
@@ -157,15 +153,15 @@ returns:
 }
 ```
 
-# Command line invocation
-This library can be used to flatten json read from standard input at the command line.
+## Command line invocation
 ```bash
+>>> echo '{"a": {"b": 1}}' | flatten_json
+{"a_b": 1}
+
 >>> echo '{"a": {"b": 1}}' | python -m flatten_json
 {"a_b": 1}
 
->>> echo '{"a": {"b": 1}}' | flatten_json
-{"a_b": 1}%-
+>>> echo '{"a": {"b": 1}}' > test.json
+>>> cat test.json | flatten_json
+{"a_b": 1}
 ```
-
-# Acknowledgements
-Thanks to [@nmaas87](http://github.com/nmaas87) for requesting this feature and [@aquilax](http://github.com/aquilax) for making it actually work.
