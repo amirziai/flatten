@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import json
 from collections import Iterable
 
 from util import check_if_numbers_are_consecutive
 import six
+
 
 def _construct_key(previous_key, separator, new_key):
     """
@@ -63,6 +65,7 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
 
     _flatten(nested_dict, None)
     return flattened_dict
+
 
 flatten_json = flatten
 
@@ -138,12 +141,14 @@ def unflatten_list(flat_dict, separator='_'):
     _convert_dict_to_list(unflattened_dict, None, None)
     return unflattened_dict
 
+
 def cli(input_stream=sys.stdin, output_stream=sys.stdout):
-    import json
     raw = input_stream.read()
     input_json = json.loads(raw)
     output = json.dumps(flatten(input_json))
-    output_stream.write(output)
+    output_stream.write('{}\n'.format(output))
+    output_stream.flush()
+
 
 if __name__ == '__main__':
     cli()

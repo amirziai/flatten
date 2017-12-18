@@ -3,14 +3,14 @@
 # flatten_json
 Flattens JSON objects in Python. ```flatten_json``` flattens the hierarchy in your object which can be useful if you want to force your objects into a table.
 
-### Installation
-```
+## Installation
+```bash
 pip install flatten_json
 ```
 
 # flatten
 
-### Usage
+## Usage
 Let's say you have the following object:
 ```python
 dic = {
@@ -98,11 +98,9 @@ returns:
     'a_a_2': 3
 }
 ```
-This feature can prevent unnecessary processing which is a concern with deeply nested objects. 
+This feature can prevent unnecessary processing which is a concern with deeply nested objects.
 
-Thanks to [@mcarans](http://github.com/jvalhondo) and [@aquilax](http://github.com/drajen) for requesting and helping with fleshing out this feature.
-
-# unflatten
+## unflatten
 Reverses the flattening process. Example usage:
 ```python
 from flatten_json import unflatten
@@ -157,15 +155,12 @@ returns:
 }
 ```
 
-# Command line invocation
+## Command line invocation
 This library can be used to flatten json read from standard input at the command line.
 ```bash
->>> echo '{"a": {"b": 1}}' | python -m flatten_json
+>>> echo '{"a": {"b": 1}}' | flatten_json
 {"a_b": 1}
 
 >>> echo '{"a": {"b": 1}}' | flatten_json
-{"a_b": 1}%-
+{"a_b": 1}
 ```
-
-# Acknowledgements
-Thanks to [@nmaas87](http://github.com/nmaas87) for requesting this feature and [@aquilax](http://github.com/aquilax) for making it actually work.
