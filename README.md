@@ -158,6 +158,10 @@ returns:
 >>> echo '{"a": {"b": 1}}' | flatten_json
 {"a_b": 1}
 
->>> echo '{"a": {"b": 1}}' | flatten_json
+>>> echo '{"a": {"b": 1}}' | python -m flatten_json
+{"a_b": 1}
+
+>>> echo '{"a": {"b": 1}}' > test.json
+>>> cat test.json | flatten_json
 {"a_b": 1}
 ```
