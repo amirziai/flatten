@@ -200,6 +200,23 @@ class UnitTests(unittest.TestCase):
         actual = unflatten_list(dic, ':')
         self.assertEqual(actual, expected)
 
+    def test_unflatten_with_list_nested(self):
+        dic = {"a": [[{"b": 1}], [{"d": 1}]]}
+        dic_flatten = flatten(dic)
+        actual = unflatten_list(dic_flatten)
+        self.assertEqual(actual, dic)
+
+    def test_unflatten_with_list_issue15(self):
+        """https://github.com/amirziai/flatten/issues/15"""
+        dic = {"Required": {"a": "1",
+                            "b": ["1", "2", "3"],
+                            "c": {"d": {"e": [[{"s1": 1}, {"s2": 2}], [{"s3": 1}, {"s4": 2}]]}},
+                            "f": ["1", "2"]},
+               "Optional": {"x": "1", "y": ["1", "2", "3"]}}
+        dic_flatten = flatten(dic)
+        actual = unflatten_list(dic_flatten)
+        self.assertEqual(actual, dic)
+
     def test_flatten_ignore_keys(self):
         """Ignore a set of root keys for processing"""
         dic = {

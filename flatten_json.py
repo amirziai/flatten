@@ -131,8 +131,14 @@ def unflatten_list(flat_dict, separator='_'):
 
             if (keys_len > 0 and sum(keys) == int(((keys_len - 1) * keys_len) / 2) and keys[0] == 0 and
                     keys[-1] == keys_len - 1 and check_if_numbers_are_consecutive(keys)):
+
                 # The dictionary looks like a list so we're going to replace it as one
-                parent_object[parent_object_key] = [object_[str(key)] for key in keys]
+                parent_object[parent_object_key] = []
+                for key_index, key in enumerate(keys):
+                    parent_object[parent_object_key].append(object_[str(key)])
+                    _convert_dict_to_list(parent_object[parent_object_key][-1],
+                                          parent_object[parent_object_key],
+                                          key_index)
 
             for key in object_:
                 if isinstance(object_[key], dict):
