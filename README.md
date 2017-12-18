@@ -8,9 +8,9 @@ Flattens JSON objects in Python. ```flatten_json``` flattens the hierarchy in yo
 pip install flatten_json
 ```
 
-# flatten
+## flatten
 
-## Usage
+### Usage
 Let's say you have the following object:
 ```python
 dic = {
@@ -77,8 +77,6 @@ returns:
 ```python
 {'a|0': 1}
 ```
-
-Thanks to [@jvalhondo](http://github.com/jvalhondo), [@drajen](http://github.com/drajen), and [@azaitsev](http://github.com/azaitsev) for contributing to this feature.
 
 ### Ignore root keys
 By default `flatten` goes through all the keys in the object. If you are not interested in output from a set of keys you can pass this set as an argument to `root_keys_to_ignore`:
@@ -156,7 +154,6 @@ returns:
 ```
 
 ## Command line invocation
-This library can be used to flatten json read from standard input at the command line.
 ```bash
 >>> echo '{"a": {"b": 1}}' | flatten_json
 {"a_b": 1}
