@@ -136,6 +136,8 @@ def unflatten_list(flat_dict, separator='_'):
                 parent_object[parent_object_key] = []
                 for key_index, key in enumerate(keys):
                     parent_object[parent_object_key].append(object_[str(key)])
+                    # The list item we just added might be a list itself
+                    # https://github.com/amirziai/flatten/issues/15
                     _convert_dict_to_list(parent_object[parent_object_key][-1],
                                           parent_object[parent_object_key],
                                           key_index)
