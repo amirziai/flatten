@@ -3,6 +3,7 @@
 
 import unittest
 import json
+
 try:
     # python2
     from StringIO import StringIO
@@ -68,7 +69,6 @@ class UnitTests(unittest.TestCase):
         actual = flatten(info)
         self.assertEqual(actual, expected)
 
-
     def test_custom_separator(self):
         dic = {'a': '1',
                'b': '2',
@@ -93,7 +93,8 @@ class UnitTests(unittest.TestCase):
             'b': 2,
             'c': [{'d': [2, 3, 4], 'e': [{'f': 1, 'g': 2}]}]
         }
-        expected = {'a': 1, 'b': 2, 'c_0_d_0': 2, 'c_0_d_1': 3, 'c_0_d_2': 4, 'c_0_e_0_f': 1, 'c_0_e_0_g': 2}
+        expected = {'a': 1, 'b': 2, 'c_0_d_0': 2, 'c_0_d_1': 3, 'c_0_d_2': 4,
+                    'c_0_e_0_f': 1, 'c_0_e_0_g': 2}
         actual = flatten(dic)
         self.assertEqual(actual, expected)
 
@@ -106,7 +107,8 @@ class UnitTests(unittest.TestCase):
             'e': [{'f': [], 'g': [{'h': {}, 'i': [], 'j': '', 'k': None}]}]
         }
         expected = {'a': {}, 'b': [], 'c': '', 'd': None,
-                    'e_0_f': [], 'e_0_g_0_h': {}, 'e_0_g_0_i': [], 'e_0_g_0_j': '', 'e_0_g_0_k': None}
+                    'e_0_f': [], 'e_0_g_0_h': {}, 'e_0_g_0_i': [],
+                    'e_0_g_0_j': '', 'e_0_g_0_k': None}
         actual = flatten(dic)
         self.assertEqual(actual, expected)
 
@@ -116,7 +118,8 @@ class UnitTests(unittest.TestCase):
             "b": 2,
             "c": [{"d": ['2', 3, 4], "e": [{"f": 1, "g": 2}]}]
         }
-        expected = {'a': 1, 'b': 2, 'c_0_d_0': '2', 'c_0_d_1': 3, 'c_0_d_2': 4, 'c_0_e_0_f': 1,
+        expected = {'a': 1, 'b': 2, 'c_0_d_0': '2', 'c_0_d_1': 3,
+                    'c_0_d_2': 4, 'c_0_e_0_f': 1,
                     'c_0_e_0_g': 2}
         actual = flatten(dic)
         self.assertEqual(actual, expected)
@@ -199,6 +202,31 @@ class UnitTests(unittest.TestCase):
         }
         actual = unflatten_list(dic, ':')
         self.assertEqual(actual, expected)
+
+    def test_unflatten_with_list_nested(self):
+        dic = {"a": [[{"b": 1}], [{"d": 1}]]}
+        dic_flatten = flatten(dic)
+        actual = unflatten_list(dic_flatten)
+        self.assertEqual(actual, dic)
+
+    def test_unflatten_with_list_issue15(self):
+        """https://github.com/amirziai/flatten/issues/15"""
+        dic = {"Required": {"a": "1",
+                            "b": ["1", "2", "3"],
+                            "c": {"d": {"e": [[{"s1": 1}, {"s2": 2}],
+                                              [{"s3": 1}, {"s4": 2}]]}},
+                            "f": ["1", "2"]},
+               "Optional": {"x": "1", "y": ["1", "2", "3"]}}
+        dic_flatten = flatten(dic)
+        actual = unflatten_list(dic_flatten)
+        self.assertEqual(actual, dic)
+
+    def test_unflatten_with_list_deep(self):
+        dic = {'a': [
+            {'b': [{'c': [{'a': 5, 'b': {'a': [1, 2, 3]}, 'c': {'x': 3}}]}]}]}
+        dic_flatten = flatten(dic)
+        actual = unflatten_list(dic_flatten)
+        self.assertEqual(actual, dic)
 
     def test_flatten_ignore_keys(self):
         """Ignore a set of root keys for processing"""
