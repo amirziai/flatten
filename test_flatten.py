@@ -223,12 +223,10 @@ class UnitTests(unittest.TestCase):
 
     def test_unflatten_with_list_issue31(self):
         """https://github.com/amirziai/flatten/issues/31"""
-        dic = {"testdict": { 
-                   "seconddict": [
-                       [ "firstvalue",
-                         "secondvalue" ],
-                       [ "thirdvalue",
-                         "fourthvalue" ]]}}
+        dic = {"testdict": {"seconddict": [["firstvalue",
+                                            "secondvalue"],
+                                           ["thirdvalue",
+                                            "fourthvalue"]]}}
 
         dic_flatten = flatten(dic)
         actual = unflatten_list(dic_flatten)
