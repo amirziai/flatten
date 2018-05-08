@@ -132,7 +132,11 @@ def unflatten_list(flat_dict, separator='_'):
     unflattened_dict = unflatten(flat_dict, separator)
 
     def _convert_dict_to_list(object_, parent_object, parent_object_key):
-        if isinstance(object_, dict):
+       for key in object_:
+           if isinstance(object_[key], dict):
+               _convert_dict_to_list(object_[key], object_, key)
+
+       if isinstance(object_, dict):
             try:
                 keys = [int(key) for key in object_]
                 keys.sort()
@@ -154,10 +158,6 @@ def unflatten_list(flat_dict, separator='_'):
                     _convert_dict_to_list(parent_object[parent_object_key][-1],
                                           parent_object[parent_object_key],
                                           key_index)
-
-            for key in object_:
-                if isinstance(object_[key], dict):
-                    _convert_dict_to_list(object_[key], object_, key)
 
     _convert_dict_to_list(unflattened_dict, None, None)
     return unflattened_dict
