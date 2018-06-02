@@ -221,6 +221,17 @@ class UnitTests(unittest.TestCase):
         actual = unflatten_list(dic_flatten)
         self.assertEqual(actual, dic)
 
+    def test_unflatten_with_list_issue31(self):
+        """https://github.com/amirziai/flatten/issues/31"""
+        dic = {"testdict": {"seconddict": [["firstvalue",
+                                            "secondvalue"],
+                                           ["thirdvalue",
+                                            "fourthvalue"]]}}
+
+        dic_flatten = flatten(dic)
+        actual = unflatten_list(dic_flatten)
+        self.assertEqual(actual, dic)
+
     def test_unflatten_with_list_deep(self):
         dic = {'a': [
             {'b': [{'c': [{'a': 5, 'b': {'a': [1, 2, 3]}, 'c': {'x': 3}}]}]}]}
