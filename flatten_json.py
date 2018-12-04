@@ -3,7 +3,11 @@
 
 import sys
 import json
-from collections import Iterable
+try:
+    # 3.8 and up
+    from collections.abc import Iterable
+except ImportError:
+    from collections import Iterable
 
 from util import check_if_numbers_are_consecutive
 import six
