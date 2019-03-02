@@ -245,7 +245,7 @@ class UnitTests(unittest.TestCase):
                   'e': 4
                   }
         }
-        actual = unflatten(dic,'.')
+        actual = unflatten(dic, '.')
         self.assertEqual(actual, expected)
 
     def test_unflatten_with_list_deep(self):
