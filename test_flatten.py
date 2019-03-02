@@ -244,9 +244,9 @@ class UnitTests(unittest.TestCase):
             'a': {'b': {'c': 2, 'd': 3},
                   'e': 4
                   }
-        }      
+        }
         actual = unflatten(dic,'.')
-        self.assertEqual(actual, expected)        
+        self.assertEqual(actual, expected)
         
     def test_unflatten_with_list_deep(self):
         dic = {'a': [
