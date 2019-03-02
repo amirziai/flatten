@@ -112,7 +112,7 @@ def unflatten(flat_dict, separator='_'):
     list_keys = sorted(flat_dict.keys())
     for i, item in enumerate(list_keys):
         if i != len(list_keys)-1:
-            if list_keys[i] not in list_keys[i + 1]:
+            if not list_keys[i+1].startswith(list_keys[i]):
                 _unflatten(unflattened_dict, item.split(separator), flat_dict[item])
             else:
                 pass  # if key contained in next key, json will be invalid.
