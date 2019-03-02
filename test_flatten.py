@@ -241,9 +241,10 @@ class UnitTests(unittest.TestCase):
             'a.e': 4
         }
         expected = {
-            'a': {'b': {'c': 2, 'd': 3}},
-            'e': 4                  
-        }        
+            'a': {'b': {'c': 2, 'd': 3},
+                  'e': 4
+                  }
+        }      
         actual = unflatten(dic,'.')
         self.assertEqual(actual, expected)        
         
