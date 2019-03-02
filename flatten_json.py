@@ -113,13 +113,13 @@ def unflatten(flat_dict, separator='_'):
     for i, item in enumerate(list_keys):
         if i != len(list_keys)-1:
             if not list_keys[i+1].startswith(list_keys[i]):
-                _unflatten(unflattened_dict, item.split(separator), 
+                _unflatten(unflattened_dict, item.split(separator),
                            flat_dict[item])
             else:
                 pass  # if key contained in next key, json will be invalid.
         else:
             #  last element
-            _unflatten(unflattened_dict, item.split(separator), 
+            _unflatten(unflattened_dict, item.split(separator),
                        flat_dict[item])
     return unflattened_dict
 
