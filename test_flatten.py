@@ -231,7 +231,7 @@ class UnitTests(unittest.TestCase):
         dic_flatten = flatten(dic)
         actual = unflatten_list(dic_flatten)
         self.assertEqual(actual, dic)
-        
+
     def test_unflatten_with_df_issue40(self):
         """https://github.com/amirziai/flatten/issues/40"""
         dic = {
