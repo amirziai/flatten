@@ -133,8 +133,8 @@ def flatten_preserve_lists(nested_dict, separator="_"
             first_key = list(object_.keys())[0]
             # if only 1 child value, and child value not a dict or list
             # flatten immediately
-            if len(object_) == 1 
-                and not (isinstance(object_[first_key], dict) 
+            if len(object_) == 1 \
+                and not (isinstance(object_[first_key], dict)
                     or isinstance(object_[first_key], list)
             ):
                 flattened_dict[key] = object_[first_key]
@@ -187,8 +187,8 @@ def flatten_preserve_lists(nested_dict, separator="_"
                 first_key = list(object_.keys())[0]
                 # if only 1 child value, and child value
                 # not a dict or list, flatten immediately
-                if len(object_) == 1 
-                    and not (isinstance(object_[first_key], dict) 
+                if len(object_) == 1 \
+                    and not (isinstance(object_[first_key], dict)
                         or isinstance(object_[first_key], list)
                 ):
                     global_max_record = int(max(list(
@@ -210,7 +210,8 @@ def flatten_preserve_lists(nested_dict, separator="_"
 
             # lists could go into rows, like in a relational database
             elif isinstance(object_, list) or isinstance(object_, set):
-                if debug: print("\nparent key of list:"
+                if debug: 
+                    print("\nparent key of list:"
                     , key, "| length: "
                     , str(len(object_)))
 
@@ -224,7 +225,8 @@ def flatten_preserve_lists(nested_dict, separator="_"
 
                 for index, item in enumerate(object_):
                     
-                    if debug: print("  list key:", key
+                    if debug: 
+                        print("  list key:", key
                         , " index: " + str(index), "vals: ", item)
 
                     sub = -1
@@ -238,7 +240,6 @@ def flatten_preserve_lists(nested_dict, separator="_"
                         if index > 0:
                             global_max_record = int(max(list(
                                 list_prebuilt_flattened_dict.keys())))
-                            if debug: print("copy entry: ", entry)
 
                             list_prebuilt_flattened_dict[
                                 str(global_max_record+1)
@@ -248,15 +249,16 @@ def flatten_preserve_lists(nested_dict, separator="_"
                     else:
                         pass
 
-                list_prebuilt_flattened_dict['0'] = 
-                    [subel for k, v in 
-                        list_prebuilt_flattened_dict.items() 
-                            for idx, subel in enumerate(v)]
+                list_prebuilt_flattened_dict['0'] = \
+                    [subel for k, v in
+                        list_prebuilt_flattened_dict.items()
+                            for idx, subel in enumerate(v)] 
 
                 for key in list(list_prebuilt_flattened_dict.keys()):
                     if key != '0':
                         del list_prebuilt_flattened_dict[key]
-                if debug: print("collapsed global list")
+                if debug: 
+                    print("collapsed global list")
 
             # Anything left take as is, assuming you hit the end of the line.
             else:
@@ -286,7 +288,6 @@ def flatten_preserve_lists(nested_dict, separator="_"
 
     # create global dict, now with unique column names
     prebuilt_flattened_dict = {column: None for column in unique_columns}
-    # if debug: print("unique columns: ",unique_columns)
 
     # initialize global record list
     list_prebuilt_flattened_dict = {'0': [prebuilt_flattened_dict]}
