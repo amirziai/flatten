@@ -235,7 +235,7 @@ class UnitTests(unittest.TestCase):
     def test_unflatten_with_df_issue40(self):
         """https://github.com/amirziai/flatten/issues/40"""
         dic = {
-            'a.b': 1,
+            'a.b': float('nan'),
             'a.b.c': 2,
             'a.b.d': 3,
             'a.e': 4
