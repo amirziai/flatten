@@ -478,7 +478,7 @@ class UnitTests(unittest.TestCase):
           'b_c': 'bar',
           'c_c': 100}]
         
-        actual = flatten_preserve_lists(dic)
+        actual = flatten_preserve_lists(dic, max_list_index=50, max_depth=10)
         self.assertEqual(actual, expected)
 
     def test_unflatten_with_list_deep(self):
