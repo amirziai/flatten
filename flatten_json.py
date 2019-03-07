@@ -253,10 +253,10 @@ def flatten_preserve_lists(nested_dict, separator="_"
 
                 list_prebuilt_flattened_dict['0'] = \
                     [subel for k, v in
-                     list_prebuilt_flattened_dict.items()
+                     sorted(list_prebuilt_flattened_dict.items())
                      for idx, subel in enumerate(v)]
 
-                for key in list(list_prebuilt_flattened_dict.keys()):
+                for key in list(sorted(list_prebuilt_flattened_dict.keys())):
                     if key != '0':
                         del list_prebuilt_flattened_dict[key]
                 if debug:
