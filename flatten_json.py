@@ -202,7 +202,7 @@ def flatten_preserve_lists(nested_dict, separator="_"
                         d[key] = object_[first_key]
 
                 else:
-                    for object_key, val in sorted(object_.items(), key=lambda x: str(type(x[1])), reverse=False):
+                    for object_key, val in sorted(object_.items(), key=lambda x: (str(type(x[1])), len(str(x[1]))), reverse=False):
                         if not (not key and object_key in root_keys_to_ignore):
                             _flatten_low_entropy(object_[object_key],
                                                  _construct_key(key,
