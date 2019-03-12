@@ -86,9 +86,9 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
 flatten_json = flatten
 
 
-def flatten_preserve_lists(nested_dict, separator="_"
-                           , root_keys_to_ignore=set()
-                           , max_list_index=3, max_depth=3):
+def flatten_preserve_lists(nested_dict, separator="_",
+                           root_keys_to_ignore=set(),
+                           max_list_index=3, max_depth=3):
     """
     Flattens a dictionary with nested structure to a dictionary with no
     hierarchy
@@ -110,13 +110,14 @@ def flatten_preserve_lists(nested_dict, separator="_"
     """
 
     assert isinstance(nested_dict, dict), "flatten requires a dictionary input"
-    assert isinstance(separator, six.string_types), "separator must be a string"
+    assert isinstance(separator, six.string_types), \
+        "separator must be a string"
 
     # This global dictionary stores the flattened keys and values and is
     # ultimately returned
     flattened_dict = dict()
 
-    def _flatten(object_, key, cur_depth, max_depth):
+    def _flatten(object_, key):
         """
         For dict, list and set objects_ calls itself on the elements and for
         other types assigns the object_ to
@@ -139,24 +140,23 @@ def flatten_preserve_lists(nested_dict, separator="_"
             if len(object_) == 1 \
                     and not (isinstance(object_[first_key], dict)
                              or isinstance(object_[first_key], list)
-            ):
+                             ):
                 flattened_dict[key] = object_[first_key]
             else:
                 for object_key in object_:
                     if not (not key and object_key in root_keys_to_ignore):
-                        _flatten(object_[object_key]
-                                 , _construct_key(key, separator, object_key)
-                                 , cur_depth, max_depth)
+                        _flatten(object_[object_key],
+                                 _construct_key(key, separator, object_key)
+                                 )
 
         elif isinstance(object_, list) or isinstance(object_, set):
             for index, item in enumerate(object_):
-                _flatten(item, _construct_key(key, separator, index)
-                         , cur_depth, max_depth)
+                _flatten(item, _construct_key(key, separator, index))
 
         else:
             flattened_dict[key] = object_
 
-    def _flatten_low_entropy(object_, key, cur_depth, max_depth):
+    def _flatten_low_entropy(object_, key, cur_depth, max_depth_inner):
         """
         For dict, list and set objects_ calls itself on the elements and for
         other types assigns the object_ to
@@ -170,7 +170,7 @@ def flatten_preserve_lists(nested_dict, separator="_"
         debug = 0
 
         # write latest child as value if max_depth exceeded
-        if cur_depth > max_depth:
+        if cur_depth > max_depth_inner:
             global_max_record = int(max(list(
                 list_prebuilt_flattened_dict.keys())))
             for d in list_prebuilt_flattened_dict[str(global_max_record)]:
@@ -202,20 +202,24 @@ def flatten_preserve_lists(nested_dict, separator="_"
                         d[key] = object_[first_key]
 
                 else:
-                    for object_key, val in sorted(object_.items(), key=lambda x: (str(type(x[1])), len(str(x[1]))), reverse=False):
+                    for object_key, val in \
+                            sorted(object_.items(),
+                                   key=lambda x:
+                                   (str(type(x[1])), len(str(x[1]))),
+                                   reverse=False):
                         if not (not key and object_key in root_keys_to_ignore):
                             _flatten_low_entropy(object_[object_key],
                                                  _construct_key(key,
                                                                 separator,
-                                                                object_key)
-                                                 , cur_depth, max_depth)
+                                                                object_key),
+                                                 cur_depth, max_depth_inner)
 
             # lists could go into rows, like in a relational database
             elif isinstance(object_, list) or isinstance(object_, set):
                 if debug:
-                    print("\nparent key of list:"
-                          , key, "| length: "
-                          , str(len(object_)))
+                    print("\nparent key of list:",
+                          key, "| length: ",
+                          str(len(object_)))
 
                 # need to remember global list state when we entered 
                 # this recursion
@@ -228,8 +232,8 @@ def flatten_preserve_lists(nested_dict, separator="_"
                 for index, item in enumerate(object_):
 
                     if debug:
-                        print("  list key:", key
-                              , " index: " + str(index), "vals: ", item)
+                        print("  list key:", key,
+                              " index: " + str(index), "vals: ", item)
 
                     sub = -1
                     if isinstance(item, dict):
@@ -247,7 +251,8 @@ def flatten_preserve_lists(nested_dict, separator="_"
                                 str(global_max_record + 1)
                             ] = copy.deepcopy(entry)
 
-                        _flatten_low_entropy(item, key, cur_depth, max_depth)
+                        _flatten_low_entropy(item, key, cur_depth,
+                                             max_depth_inner)
                     else:
                         pass
 
@@ -276,7 +281,7 @@ def flatten_preserve_lists(nested_dict, separator="_"
                     # decrease depth counter
         cur_depth -= 1
 
-    _flatten(nested_dict, None, cur_depth=0, max_depth=max_depth)
+    _flatten(nested_dict, None)
 
     # get unique column names, without the integers
     # TODO: potential issue: what if column names have digits naturally?
@@ -294,7 +299,8 @@ def flatten_preserve_lists(nested_dict, separator="_"
     # initialize global record list
     list_prebuilt_flattened_dict = {'0': [prebuilt_flattened_dict]}
 
-    _flatten_low_entropy(nested_dict, None, cur_depth=0, max_depth=max_depth)
+    _flatten_low_entropy(nested_dict, None, cur_depth=0,
+                         max_depth_inner=max_depth)
 
     return list_prebuilt_flattened_dict['0']
 

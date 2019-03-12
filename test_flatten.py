@@ -11,7 +11,8 @@ except ImportError:
     # python3
     from io import StringIO
 
-from flatten_json import flatten, flatten_preserve_lists, unflatten, unflatten_list, cli
+from flatten_json import flatten, flatten_preserve_lists, unflatten, \
+    unflatten_list, cli
 from util import check_if_numbers_are_consecutive
 
 
@@ -248,13 +249,14 @@ class UnitTests(unittest.TestCase):
         actual = unflatten(dic, '.')
         self.assertEqual(actual, expected)
         
-    def test_flatten_preserve_lists_issue43_other(self):
+    def test_flatten_preserve_lists_issue43_nested(self):
         """https://github.com/amirziai/flatten/issues/43"""
         dic = {
             'a': {'a': ["x0", "x1", "x2"]},
             'b': {'b': 'foo', 'c': 'bar'},
             'c': {'c': [
-                {'foo': 2, 'bar': 6, 'baz': ["n1", "n2", "n3", "n1.1", "n2.2"]},
+                {'foo': 2, 'bar': 6, 'baz':
+                    ["n1", "n2", "n3", "n1.1", "n2.2"]},
                 {'foo': 5, 'bar': 7, 'baz': ["n4", "n5", "n6"]},
                 {'foo': float('nan')},
                 {'foo': 100},
@@ -270,7 +272,8 @@ class UnitTests(unittest.TestCase):
 
         actual = flatten_preserve_lists(dic, max_depth=100, max_list_index=30)
 
-        expected = [{"a_a": "x0",
+        expected = [
+         {"a_a": "x0",
           "f_h": 100,
           "c_c": None,
           "c_c_baz": "n1",
@@ -1891,8 +1894,6 @@ class UnitTests(unittest.TestCase):
           "c_c_foo": None,
           "d": 10}]
 
-
-
         self.assertEqual(expected, actual)
 
     def test_flatten_preserve_lists_issue43(self):
@@ -1901,14 +1902,16 @@ class UnitTests(unittest.TestCase):
             'a': {'a': ["x0", "x1", "x2"]},
             'b': {'b': 'foo', 'c': 'bar'},
             'c': {'c': [
-                {'foo': 2, 'bar': 6, 'baz': ["n1", "n2", "n3", "n1.1", "n2.2"]},
+                {'foo': 2, 'bar': 6, 'baz': [
+                    "n1", "n2", "n3", "n1.1", "n2.2"]},
                 {'foo': 5, 'bar': 7, 'baz': ["n4", "n5", "n6"]},
                 {'foo': float('nan')},
                 {'foo': 100},
             ]},
             'd': {'g': 10}
         }
-        expected = [{'a_a': 'x0',
+        expected = [
+         {'a_a': 'x0',
           'c_c_foo': 2,
           'c_c_baz': 'n1',
           'c_c_bar': 6,
@@ -2124,7 +2127,7 @@ class UnitTests(unittest.TestCase):
           'd': 10,
           'b_c': 'bar',
           'c_c': 100}]
-        
+
         actual = flatten_preserve_lists(dic, max_list_index=50, max_depth=10)
         self.assertEqual(actual, expected)
 
