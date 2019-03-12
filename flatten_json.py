@@ -97,7 +97,7 @@ def flatten_preserve_lists(nested_dict, separator="_",
     This is specially true for very deep objects
     This preserves list structure, and
     you can specify max_list_index and max_depth to limit processing
-    
+
     Child elements with only one value inside
     will be unwrapped and become parent's value.
 
@@ -161,7 +161,7 @@ def flatten_preserve_lists(nested_dict, separator="_",
         For dict, list and set objects_ calls itself on the elements and for
         other types assigns the object_ to
         the corresponding key in the global flattened_dict
-        
+
         :param object_: object to flatten
         :param key: carries the concatenated key for the object_
         :return: None
@@ -221,7 +221,7 @@ def flatten_preserve_lists(nested_dict, separator="_",
                           key, "| length: ",
                           str(len(object_)))
 
-                # need to remember global list state when we entered 
+                # need to remember global list state when we entered
                 # this recursion
                 global_max_record_start = int(max(list(
                     list_prebuilt_flattened_dict.keys())))

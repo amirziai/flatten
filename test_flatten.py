@@ -248,7 +248,7 @@ class UnitTests(unittest.TestCase):
         }
         actual = unflatten(dic, '.')
         self.assertEqual(actual, expected)
-        
+
     def test_flatten_preserve_lists_issue43_nested(self):
         """https://github.com/amirziai/flatten/issues/43"""
         dic = {
