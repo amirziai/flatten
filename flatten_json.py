@@ -68,7 +68,7 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
                     _flatten(object_[object_key], _construct_key(key,
                                                                  separator,
                                                                  object_key))
-        elif isinstance(object_, list) or isinstance(object_, set):
+        elif isinstance(object_, list) or isinstance(object_, set) or isinstance(object_, tuple):
             for index, item in enumerate(object_):
                 _flatten(item, _construct_key(key, separator, index))
         # Anything left take as is

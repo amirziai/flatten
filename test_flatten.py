@@ -111,6 +111,24 @@ class UnitTests(unittest.TestCase):
                     'e_0_g_0_j': '', 'e_0_g_0_k': None}
         actual = flatten(dic)
         self.assertEqual(actual, expected)
+    
+    def test_tuple(self):
+        dic = {
+            'a': 1,
+            'b': ({'c': (2, 3)},)
+        }
+        expected = {'a': 1, 'b_0_c_0': 2, 'b_0_c_1': 3}
+        actual = flatten(dic)
+        self.assertEqual(actual, expected)
+
+    def test_empty_tuple(self):
+        dic = {
+            'a': 1,
+            'b': ({'c': ()},)
+        }
+        expected = {'a': 1, 'b_0_c': ()}
+        actual = flatten(dic)
+        self.assertEqual(actual, expected)
 
     def test_blog_example(self):
         dic = {
