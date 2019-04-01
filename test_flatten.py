@@ -111,7 +111,7 @@ class UnitTests(unittest.TestCase):
                     'e_0_g_0_j': '', 'e_0_g_0_k': None}
         actual = flatten(dic)
         self.assertEqual(actual, expected)
-    
+
     def test_tuple(self):
         dic = {
             'a': 1,
