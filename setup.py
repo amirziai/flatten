@@ -21,4 +21,5 @@ setup(
     entry_points={
         'console_scripts': ['flatten_json=flatten_json:cli']
     },
+    install_requires=['six'],
 )
