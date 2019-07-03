@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='flatten_json',
-    modules=['flatten_json'],
+    py_modules=['flatten_json', 'util'],
     version='0.1.7',
     description='Flatten JSON objects',
     long_description=readme(),
@@ -21,4 +21,5 @@ setup(
     entry_points={
         'console_scripts': ['flatten_json=flatten_json:cli']
     },
+    install_requires=['six'],
 )
