@@ -335,7 +335,9 @@ def unflatten(flat_dict, separator='_'):
     list_keys = sorted(flat_dict.keys())
     for i, item in enumerate(list_keys):
         if i != len(list_keys) - 1:
-            if not list_keys[i + 1].startswith(list_keys[i]):
+            split_key = item.split(separator)
+            next_split_key = list_keys[i + 1].split(separator)
+            if not split_key == next_split_key[:-1]:
                 _unflatten(unflattened_dict, item.split(separator),
                            flat_dict[item])
             else:
