@@ -13,7 +13,7 @@ except ImportError:
 
 from flatten_json import flatten, flatten_preserve_lists, unflatten, \
     unflatten_list, cli
-from util import check_if_numbers_are_consecutive
+from flatten_json.util import check_if_numbers_are_consecutive
 
 
 class UnitTests(unittest.TestCase):

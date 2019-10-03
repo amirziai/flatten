@@ -10,7 +10,7 @@ try:
 except ImportError:
     from collections import Iterable
 
-from util import check_if_numbers_are_consecutive
+from flatten_json.util import check_if_numbers_are_consecutive
 import six
 import copy
 import re
