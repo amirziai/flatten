@@ -9,7 +9,7 @@ def readme():
 setup(
     name='flatten_json',
     py_modules=['flatten_json'],
-    version='0.1.7',
+    version='0.1.8',
     description='Flatten JSON objects',
     long_description=readme(),
     license='MIT',
