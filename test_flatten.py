@@ -2156,6 +2156,16 @@ class UnitTests(unittest.TestCase):
         actual = unflatten_list(dic_flatten)
         self.assertEqual(actual, dic)
 
+    def test_unflatten_with_common_prefixes(self):
+        dic = {
+            'a': 1,
+            'ab': 2,
+            'abc': 3,
+        }
+        dic_flatten = flatten(dic)
+        actual = unflatten(dic_flatten)
+        self.assertEqual(actual, dic)
+
     def test_flatten_ignore_keys(self):
         """Ignore a set of root keys for processing"""
         dic = {
