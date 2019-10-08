@@ -11,7 +11,7 @@ setup(
     py_modules=['flatten_json', 'util'],
     version='0.1.7',
     description='Flatten JSON objects',
-    long_description=readme(),
+    # long_description=readme(),
     license='MIT',
     author='Amir Ziai',
     author_email='arziai@gmail.com',
