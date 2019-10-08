@@ -1,17 +1,11 @@
 from setuptools import setup
 
 
-def readme():
-    with open('README.md') as f:
-        return f.read()
-
-
 setup(
     name='flatten_json',
     py_modules=['flatten_json', 'util'],
-    version='0.1.7',
+    version='0.1.8',
     description='Flatten JSON objects',
-    long_description=readme(),
     license='MIT',
     author='Amir Ziai',
     author_email='arziai@gmail.com',
