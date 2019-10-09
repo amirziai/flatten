@@ -15,6 +15,7 @@ import six
 import copy
 import re
 from math import isnan
+from collections.abc import Iterable
 
 
 def _construct_key(previous_key, separator, new_key):
@@ -72,7 +73,7 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
                     _flatten(object_[object_key], _construct_key(key,
                                                                  separator,
                                                                  object_key))
-        elif isinstance(object_, (list, set, tuple)):
+        elif isinstance(object_, Iterable):
             for index, item in enumerate(object_):
                 _flatten(item, _construct_key(key, separator, index))
         # Anything left take as is
