@@ -2171,6 +2171,18 @@ class UnitTests(unittest.TestCase):
         actual = flatten(dic, root_keys_to_ignore={'b', 'c'})
         self.assertEqual(actual, expected)
 
+    def test_flatten_custom_iterable(self):
+        class customIter:
+            def __init__(self, lst):
+                self.val = lst
+            def __iter__(self):
+                return self.val.__iter__()
+        elst = {'a':customIter([0,1,2])}
+        expected = {'a_0': 0, 'a_1': 1, 'a_2': 2}
+        actual = flatten(elst)
+        
+        self.assertEqual(actual, expected)
+        
     def test_command_line(self):
         input_stream = StringIO(u'{"a": {"b": 1}}')
         output_stream = StringIO()
