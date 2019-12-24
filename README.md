@@ -27,13 +27,13 @@ flatten(dic)
 
 Results:
 ```python
-{'a': '1',
- 'b': '2',
- 'c_0_d_0': '2',
- 'c_0_d_1': '3',
- 'c_0_d_2': '4',
- 'c_0_e_0_f': '1',
- 'c_0_e_0_g': '2'}
+{'a': 1,
+ 'b': 2,
+ 'c_0_d_0': 2,
+ 'c_0_d_1': 3,
+ 'c_0_d_2': 4,
+ 'c_0_e_0_f': 1,
+ 'c_0_e_0_g': 2}
 ```
 
 ### Usage with Pandas
@@ -51,9 +51,9 @@ dic_flattened = (flatten(d) for d in dic)
 ```
 which creates an array of flattened objects:
 ```python
-[{'a': '1', 'b': '2', 'c_d': '3', 'c_e': '4'},
- {'a': '0.5', 'c_d': '3.2'},
- {'a': '0.8', 'b': '1.8'}]
+[{'a': 1, 'b': 2, 'c_d': 3, 'c_e': 4},
+ {'a': 0.5, 'c_d': 3.2},
+ {'a': 0.8, 'b': 1.8}]
 ```
 Finally you can use ```pd.DataFrame``` to capture the flattened array:
 ```python

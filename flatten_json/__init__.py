@@ -1,8 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
+import copy
 import json
+import re
+import sys
+from math import isnan
+
+import six
+
+from flatten_json.util import check_if_numbers_are_consecutive
 
 try:
     # 3.8 and up
@@ -10,30 +17,31 @@ try:
 except ImportError:
     from collections import Iterable
 
-from flatten_json.util import check_if_numbers_are_consecutive
-import six
-import copy
-import re
-from math import isnan
 
-
-def _construct_key(previous_key, separator, new_key):
+def _construct_key(previous_key, separator, new_key, replace_separators=None):
     """
     Returns the new_key if no previous key exists, otherwise concatenates
     previous key, separator, and new_key
     :param previous_key:
     :param separator:
     :param new_key:
+    :param str replace_separators: Replace separators within keys
     :return: a string if previous_key exists and simply passes through the
     new_key otherwise
     """
+    if replace_separators is not None:
+        new_key = str(new_key).replace(separator, replace_separators)
     if previous_key:
         return u"{}{}{}".format(previous_key, separator, new_key)
     else:
         return new_key
 
 
-def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
+def flatten(
+        nested_dict,
+        separator="_",
+        root_keys_to_ignore=set(),
+        replace_separators=None):
     """
     Flattens a dictionary with nested structure to a dictionary with no
     hierarchy
@@ -44,6 +52,7 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
     :param nested_dict: dictionary we want to flatten
     :param separator: string to separate dictionary keys by
     :param root_keys_to_ignore: set of root keys to ignore from flattening
+    :param str replace_separators: Replace separators within keys
     :return: flattened dictionary
     """
     assert isinstance(nested_dict, dict), "flatten requires a dictionary input"
@@ -69,12 +78,22 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
         elif isinstance(object_, dict):
             for object_key in object_:
                 if not (not key and object_key in root_keys_to_ignore):
-                    _flatten(object_[object_key], _construct_key(key,
-                                                                 separator,
-                                                                 object_key))
+                    _flatten(
+                        object_[object_key],
+                        _construct_key(
+                            key,
+                            separator,
+                            object_key,
+                            replace_separators=replace_separators))
         elif isinstance(object_, (list, set, tuple)):
             for index, item in enumerate(object_):
-                _flatten(item, _construct_key(key, separator, index))
+                _flatten(
+                    item,
+                    _construct_key(
+                        key,
+                        separator,
+                        index,
+                        replace_separators=replace_separators))
         # Anything left take as is
         else:
             flattened_dict[key] = object_
@@ -88,7 +107,8 @@ flatten_json = flatten
 
 def flatten_preserve_lists(nested_dict, separator="_",
                            root_keys_to_ignore=set(),
-                           max_list_index=3, max_depth=3):
+                           max_list_index=3, max_depth=3,
+                           replace_separators=None):
     """
     Flattens a dictionary with nested structure to a dictionary with no
     hierarchy
@@ -106,6 +126,7 @@ def flatten_preserve_lists(nested_dict, separator="_",
     :param root_keys_to_ignore: set of root keys to ignore from flattening
     :param max_list_index: maximum list index to process
     :param max_depth: maximum nesting depth to process
+    :param str replace_separators: Replace separators within keys
     :return: flattened dictionary
     """
 
@@ -145,13 +166,23 @@ def flatten_preserve_lists(nested_dict, separator="_",
             else:
                 for object_key in object_:
                     if not (not key and object_key in root_keys_to_ignore):
-                        _flatten(object_[object_key],
-                                 _construct_key(key, separator, object_key)
-                                 )
+                        _flatten(
+                            object_[object_key],
+                            _construct_key(
+                                key,
+                                separator,
+                                object_key,
+                                replace_separators=replace_separators))
 
         elif isinstance(object_, list) or isinstance(object_, set):
             for index, item in enumerate(object_):
-                _flatten(item, _construct_key(key, separator, index))
+                _flatten(
+                    item,
+                    _construct_key(
+                        key,
+                        separator,
+                        index,
+                        replace_separators=replace_separators))
 
         else:
             flattened_dict[key] = object_
@@ -208,11 +239,15 @@ def flatten_preserve_lists(nested_dict, separator="_",
                                    (str(type(x[1])), len(str(x[1]))),
                                    reverse=False):
                         if not (not key and object_key in root_keys_to_ignore):
-                            _flatten_low_entropy(object_[object_key],
-                                                 _construct_key(key,
-                                                                separator,
-                                                                object_key),
-                                                 cur_depth, max_depth_inner)
+                            _flatten_low_entropy(
+                                object_[object_key],
+                                _construct_key(
+                                    key,
+                                    separator,
+                                    object_key,
+                                    replace_separators=replace_separators),
+                                cur_depth,
+                                max_depth_inner)
 
             # lists could go into rows, like in a relational database
             elif isinstance(object_, list) or isinstance(object_, set):
