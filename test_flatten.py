@@ -268,6 +268,22 @@ class UnitTests(unittest.TestCase):
         actual = unflatten(dic, '.')
         self.assertEqual(actual, expected)
 
+    def test_unflatten_with_key_loss_issue51(self):
+        """https://github.com/amirziai/flatten/issues/51"""
+        dic = {
+            'a': 1,
+            'a_b': 2,
+            'a_c.d': 3,
+            'a_c.e': 4
+        }
+        expected = {
+            'a': 1,
+            'a_b': 2,
+            'a_c': {'d': 3, 'e': 4}
+        }
+        actual = unflatten(dic, '.')
+        self.assertEqual(actual, expected)
+
     def test_flatten_preserve_lists_issue43_nested(self):
         """https://github.com/amirziai/flatten/issues/43"""
         dic = {
