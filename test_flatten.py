@@ -2207,6 +2207,7 @@ class UnitTests(unittest.TestCase):
             'a_a_1': 2,
             'a_a_2': 3
         }
+
         def _ignore_key_func(key):
             return key == 'b'
         actual = flatten(dic, ignore_key_func=_ignore_key_func)
