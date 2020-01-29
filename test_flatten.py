@@ -2175,14 +2175,15 @@ class UnitTests(unittest.TestCase):
     def test_flatten_ignore_keys(self):
         """Ignore a set of root keys for processing"""
         dic = {
-            'a': {'a': [1, 2, 3]},
+            'a': {'a': [1, 2, 3], 'b': 4},
             'b': {'b': 'foo', 'c': 'bar'},
             'c': {'c': [{'foo': 5, 'bar': 6, 'baz': [1, 2, 3]}]}
         }
         expected = {
             'a_a_0': 1,
             'a_a_1': 2,
-            'a_a_2': 3
+            'a_a_2': 3,
+            'a_b': 4
         }
         actual = flatten(dic, root_keys_to_ignore={'b', 'c'})
         self.assertEqual(actual, expected)
@@ -2194,6 +2195,22 @@ class UnitTests(unittest.TestCase):
         output = output_stream.getvalue()
         result = json.loads(output)
         self.assertEqual(result, dict(a_b=1))
+
+    def test_keys_to_ignore(self):
+        """Ignore a set of keys any depth for processing"""
+        dic = {
+            'a': {'a': [1, 2, 3], 'b': 4},
+            'b': {'b': 'foo', 'c': 'bar'}
+        }
+        expected = {
+            'a_a_0': 1,
+            'a_a_1': 2,
+            'a_a_2': 3
+        }
+        def _ignore_key_func(key):
+            return key == 'b'
+        actual = flatten(dic, ignore_key_func=_ignore_key_func)
+        self.assertEqual(actual, expected)
 
 
 if __name__ == '__main__':
