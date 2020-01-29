@@ -33,7 +33,10 @@ def _construct_key(previous_key, separator, new_key):
         return new_key
 
 
-def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
+def flatten(nested_dict,
+            separator="_",
+            root_keys_to_ignore=set(),
+            ignore_key_func=None):
     """
     Flattens a dictionary with nested structure to a dictionary with no
     hierarchy
@@ -44,6 +47,7 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
     :param nested_dict: dictionary we want to flatten
     :param separator: string to separate dictionary keys by
     :param root_keys_to_ignore: set of root keys to ignore from flattening
+    :param ignore_key_func: func to ignore key at any level from flattening
     :return: flattened dictionary
     """
     assert isinstance(nested_dict, dict), "flatten requires a dictionary input"
@@ -68,10 +72,13 @@ def flatten(nested_dict, separator="_", root_keys_to_ignore=set()):
         # These object types support iteration
         elif isinstance(object_, dict):
             for object_key in object_:
-                if not (not key and object_key in root_keys_to_ignore):
-                    _flatten(object_[object_key], _construct_key(key,
-                                                                 separator,
-                                                                 object_key))
+                if not key and object_key in root_keys_to_ignore:
+                    continue
+                if ignore_key_func and ignore_key_func(object_key):
+                    continue
+                _flatten(object_[object_key], _construct_key(key,
+                                                             separator,
+                                                             object_key))
         elif isinstance(object_, (list, set, tuple)):
             for index, item in enumerate(object_):
                 _flatten(item, _construct_key(key, separator, index))
