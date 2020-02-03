@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import unittest
 import json
+import unittest
+
+from flatten_json import (cli, flatten, flatten_preserve_lists, unflatten,
+                          unflatten_list)
+from flatten_json.util import check_if_numbers_are_consecutive
 
 try:
     # python2
@@ -11,9 +15,6 @@ except ImportError:
     # python3
     from io import StringIO
 
-from flatten_json import flatten, flatten_preserve_lists, unflatten, \
-    unflatten_list, cli
-from flatten_json.util import check_if_numbers_are_consecutive
 
 
 class UnitTests(unittest.TestCase):
@@ -2194,6 +2195,55 @@ class UnitTests(unittest.TestCase):
         output = output_stream.getvalue()
         result = json.loads(output)
         self.assertEqual(result, dict(a_b=1))
+
+    def test_replace_separators_none(self):
+        dic = {
+            'a_with_separator': {'b': [1, 2, 3]},
+        }
+        expected = {
+            'a_with_separator_b_0': 1,
+            'a_with_separator_b_1': 2,
+            'a_with_separator_b_2': 3
+        }
+        actual = flatten(dic)
+        self.assertEqual(actual, expected)
+
+    def test_replace_separators_remove(self):
+        dic = {
+            'a_with_separator': {'b': [1, 2, 3]},
+        }
+        expected = {
+            'awithseparator_b_0': 1,
+            'awithseparator_b_1': 2,
+            'awithseparator_b_2': 3
+        }
+        actual = flatten(dic, replace_separators='')
+        self.assertEqual(actual, expected)
+
+    def test_replace_separators_something(self):
+        dic = {
+            'a_with_separator': {'b': [1, 2, 3]},
+        }
+        expected = {
+            'a.with.separator_b_0': 1,
+            'a.with.separator_b_1': 2,
+            'a.with.separator_b_2': 3
+        }
+        actual = flatten(dic, replace_separators='.')
+        self.assertEqual(actual, expected)
+
+    def test_replace_separators_nested(self):
+        dic = {
+            'a_with_separator': {'b_with_separator': [1, 2, 3]},
+        }
+        expected = {
+            'awithseparator_bwithseparator_0': 1,
+            'awithseparator_bwithseparator_1': 2,
+            'awithseparator_bwithseparator_2': 3
+        }
+        actual = flatten(dic, replace_separators='')
+        self.assertEqual(actual, expected)
+
 
 
 if __name__ == '__main__':
