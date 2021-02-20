@@ -9,13 +9,24 @@ from math import isnan
 
 import six
 
-from flatten_json.util import check_if_numbers_are_consecutive
-
 try:
     # 3.8 and up
     from collections.abc import Iterable
 except ImportError:
     from collections import Iterable
+
+
+def check_if_numbers_are_consecutive(list_):
+    """
+    Returns True if numbers in the list are consecutive
+
+    :param list_: list of integers
+    :return: Boolean
+    """
+    return all(
+        True if second - first == 1 else False
+        for first, second in zip(list_[:-1], list_[1:])
+    )
 
 
 def _construct_key(previous_key, separator, new_key, replace_separators=None):
@@ -40,7 +51,7 @@ def _construct_key(previous_key, separator, new_key, replace_separators=None):
 def flatten(
         nested_dict,
         separator="_",
-        root_keys_to_ignore=set(),
+        root_keys_to_ignore=None,
         replace_separators=None):
     """
     Flattens a dictionary with nested structure to a dictionary with no
@@ -57,6 +68,9 @@ def flatten(
     """
     assert isinstance(nested_dict, dict), "flatten requires a dictionary input"
     assert isinstance(separator, six.string_types), "separator must be string"
+
+    if root_keys_to_ignore is None:
+        root_keys_to_ignore = set()
 
     # This global dictionary stores the flattened keys and values and is
     # ultimately returned
@@ -106,7 +120,7 @@ flatten_json = flatten
 
 
 def flatten_preserve_lists(nested_dict, separator="_",
-                           root_keys_to_ignore=set(),
+                           root_keys_to_ignore=None,
                            max_list_index=3, max_depth=3,
                            replace_separators=None):
     """
@@ -134,6 +148,9 @@ def flatten_preserve_lists(nested_dict, separator="_",
     assert isinstance(separator, six.string_types), \
         "separator must be a string"
 
+    if root_keys_to_ignore is None:
+        root_keys_to_ignore = set()
+
     # This global dictionary stores the flattened keys and values and is
     # ultimately returned
     flattened_dict = dict()
@@ -158,10 +175,8 @@ def flatten_preserve_lists(nested_dict, separator="_",
             first_key = list(object_.keys())[0]
             # if only 1 child value, and child value not a dict or list
             # flatten immediately
-            if len(object_) == 1 \
-                    and not (isinstance(object_[first_key], dict)
-                             or isinstance(object_[first_key], list)
-                             ):
+            is_iter = isinstance(object_[first_key], Iterable)
+            if len(object_) == 1 and not is_iter:
                 flattened_dict[key] = object_[first_key]
             else:
                 for object_key in object_:
@@ -174,15 +189,10 @@ def flatten_preserve_lists(nested_dict, separator="_",
                                 object_key,
                                 replace_separators=replace_separators))
 
-        elif isinstance(object_, list) or isinstance(object_, set):
+        elif isinstance(object_, (list, set, tuple)):
             for index, item in enumerate(object_):
-                _flatten(
-                    item,
-                    _construct_key(
-                        key,
-                        separator,
-                        index,
-                        replace_separators=replace_separators))
+                key = _construct_key(key, separator, index, replace_separators=replace_separators)
+                _flatten(item, key)
 
         else:
             flattened_dict[key] = object_
