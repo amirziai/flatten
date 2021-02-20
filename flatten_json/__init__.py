@@ -72,6 +72,9 @@ def flatten(
     if root_keys_to_ignore is None:
         root_keys_to_ignore = set()
 
+    if len(nested_dict) == 0:
+        return {}
+
     # This global dictionary stores the flattened keys and values and is
     # ultimately returned
     flattened_dict = dict()

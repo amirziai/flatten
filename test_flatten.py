@@ -38,11 +38,17 @@ class UnitTests(unittest.TestCase):
         actual = check_if_numbers_are_consecutive(list_)
         self.assertFalse(actual)
 
+    def test_empty(self):
+        d = {}
+        expected = d
+        actual = flatten(d)
+        self.assertEqual(expected, actual)
+
     def test_no_flatten(self):
         dic = {'a': '1', 'b': '2', 'c': 3}
         expected = dic
         actual = flatten(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_one_flatten(self):
         dic = {'a': '1',
@@ -51,7 +57,7 @@ class UnitTests(unittest.TestCase):
                }
         expected = {'a': '1', 'b': '2', 'c_c1': '3', 'c_c2': '4'}
         actual = flatten(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_one_flatten_utf8(self):
         dic = {'a': '1',
@@ -60,14 +66,14 @@ class UnitTests(unittest.TestCase):
                }
         expected = {'a': '1', u'ñ': u'áéö', 'c_c1': '3', 'c_c2': '4'}
         actual = flatten(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_one_flatten_utf8_dif(self):
         a = {u'eñe': 1}
         info = dict(info=a)
         expected = {u'info_{}'.format(u'eñe'): 1}
         actual = flatten(info)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_custom_separator(self):
         dic = {'a': '1',
@@ -76,7 +82,7 @@ class UnitTests(unittest.TestCase):
                }
         expected = {'a': '1', 'b': '2', 'c*c1': '3', 'c*c2': '4'}
         actual = flatten(dic, '*')
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_list(self):
         dic = {
@@ -85,7 +91,7 @@ class UnitTests(unittest.TestCase):
         }
         expected = {'a': 1, 'b_0_c_0': 2, 'b_0_c_1': 3}
         actual = flatten(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_list_and_dict(self):
         dic = {
@@ -96,7 +102,7 @@ class UnitTests(unittest.TestCase):
         expected = {'a': 1, 'b': 2, 'c_0_d_0': 2, 'c_0_d_1': 3, 'c_0_d_2': 4,
                     'c_0_e_0_f': 1, 'c_0_e_0_g': 2}
         actual = flatten(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_empty_list_and_dict(self):
         dic = {
@@ -110,7 +116,7 @@ class UnitTests(unittest.TestCase):
                     'e_0_f': [], 'e_0_g_0_h': {}, 'e_0_g_0_i': [],
                     'e_0_g_0_j': '', 'e_0_g_0_k': None}
         actual = flatten(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_tuple(self):
         dic = {
@@ -119,7 +125,7 @@ class UnitTests(unittest.TestCase):
         }
         expected = {'a': 1, 'b_0_c_0': 2, 'b_0_c_1': 3}
         actual = flatten(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_empty_tuple(self):
         dic = {
@@ -128,7 +134,7 @@ class UnitTests(unittest.TestCase):
         }
         expected = {'a': 1, 'b_0_c': ()}
         actual = flatten(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_blog_example(self):
         dic = {
@@ -140,7 +146,7 @@ class UnitTests(unittest.TestCase):
                     'c_0_d_2': 4, 'c_0_e_0_f': 1,
                     'c_0_e_0_g': 2}
         actual = flatten(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_unflatten_no_list(self):
         dic = {
@@ -155,7 +161,7 @@ class UnitTests(unittest.TestCase):
             'c': {'a': {'b': 5}}
         }
         actual = unflatten(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_unflatten_with_list(self):
         """Dictionary with lists"""
@@ -174,17 +180,17 @@ class UnitTests(unittest.TestCase):
             'c': {'a': 'a', 'b': [1, 2, 3]}
         }
         actual = unflatten_list(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
         dic = {'a': 1, 'b_0': 5}
         expected = {'a': 1, 'b': [5]}
         actual = unflatten_list(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
         dic = {'a': 1, 'b:0': 5}
         expected = {'a': 1, 'b': [5]}
         actual = unflatten_list(dic, ':')
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_unflatten_with_list_custom_separator(self):
         """Complex dictionary with lists"""
@@ -219,7 +225,7 @@ class UnitTests(unittest.TestCase):
             }
         }
         actual = unflatten_list(dic, ':')
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_unflatten_with_list_nested(self):
         dic = {"a": [[{"b": 1}], [{"d": 1}]]}
@@ -264,7 +270,7 @@ class UnitTests(unittest.TestCase):
                   }
         }
         actual = unflatten(dic, '.')
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_unflatten_with_key_loss_issue51(self):
         """https://github.com/amirziai/flatten/issues/51"""
@@ -280,7 +286,7 @@ class UnitTests(unittest.TestCase):
             'a_c': {'d': 3, 'e': 4}
         }
         actual = unflatten(dic, '.')
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_flatten_preserve_lists_issue43_nested(self):
         """https://github.com/amirziai/flatten/issues/43"""
@@ -2162,7 +2168,7 @@ class UnitTests(unittest.TestCase):
              'c_c': 100}]
 
         actual = flatten_preserve_lists(dic, max_list_index=50, max_depth=10)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_unflatten_with_list_deep(self):
         dic = {'a': [
@@ -2184,7 +2190,7 @@ class UnitTests(unittest.TestCase):
             'a_a_2': 3
         }
         actual = flatten(dic, root_keys_to_ignore={'b', 'c'})
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_command_line(self):
         input_stream = StringIO(u'{"a": {"b": 1}}')
@@ -2204,7 +2210,7 @@ class UnitTests(unittest.TestCase):
             'a_with_separator_b_2': 3
         }
         actual = flatten(dic)
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_replace_separators_remove(self):
         dic = {
@@ -2216,7 +2222,7 @@ class UnitTests(unittest.TestCase):
             'awithseparator_b_2': 3
         }
         actual = flatten(dic, replace_separators='')
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_replace_separators_something(self):
         dic = {
@@ -2228,7 +2234,7 @@ class UnitTests(unittest.TestCase):
             'a.with.separator_b_2': 3
         }
         actual = flatten(dic, replace_separators='.')
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
     def test_replace_separators_nested(self):
         dic = {
@@ -2240,7 +2246,7 @@ class UnitTests(unittest.TestCase):
             'awithseparator_bwithseparator_2': 3
         }
         actual = flatten(dic, replace_separators='')
-        self.assertEqual(actual, expected)
+        self.assertEqual(expected, actual)
 
 
 if __name__ == '__main__':
