@@ -191,7 +191,8 @@ def flatten_preserve_lists(nested_dict, separator="_",
 
         elif isinstance(object_, (list, set, tuple)):
             for index, item in enumerate(object_):
-                key = _construct_key(key, separator, index, replace_separators=replace_separators)
+                key = _construct_key(key, separator, index,
+                                     replace_separators=replace_separators)
                 _flatten(item, key)
 
         else:
