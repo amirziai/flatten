@@ -47,7 +47,7 @@ dic = [
 ```
 We can apply `flatten` to each element in the array and then use pandas to capture the output as a dataframe:
 ```python
-dic_flattened = (flatten(d) for d in dic)
+dic_flattened = [flatten(d) for d in dic]
 ```
 which creates an array of flattened objects:
 ```python
