@@ -3,7 +3,8 @@ from setuptools import setup
 
 setup(
     name='flatten_json',
-    version='0.1.9',
+    packages=['flatten_json'],
+    version='0.1.12',
     description='Flatten JSON objects',
     license='MIT',
     author='Amir Ziai',
