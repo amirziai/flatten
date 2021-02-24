@@ -201,7 +201,11 @@ def flatten_preserve_lists(nested_dict, separator="_",
         else:
             flattened_dict[key] = object_
 
-    def _flatten_low_entropy(object_, key, cur_depth, cur_list_depth, max_depth_inner):
+    def _flatten_low_entropy(object_,
+                             key,
+                             cur_depth,
+                             cur_list_depth,
+                             max_depth_inner):
         """
         For dict, list and set objects_ calls itself on the elements and for
         other types assigns the object_ to
@@ -261,6 +265,7 @@ def flatten_preserve_lists(nested_dict, separator="_",
                                     object_key,
                                     replace_separators=replace_separators),
                                 cur_depth,
+                                cur_list_depth,
                                 max_depth_inner)
 
             # lists could go into rows, like in a relational database
@@ -302,7 +307,10 @@ def flatten_preserve_lists(nested_dict, separator="_",
                                 str(global_max_record + 1)
                             ] = copy.deepcopy(entry)
 
-                        _flatten_low_entropy(item, key, cur_depth, cur_list_depth,
+                        _flatten_low_entropy(item,
+                                             key,
+                                             cur_depth,
+                                             cur_list_depth,
                                              max_depth_inner)
                     else:
                         pass
@@ -352,7 +360,10 @@ def flatten_preserve_lists(nested_dict, separator="_",
     # initialize global record list
     list_prebuilt_flattened_dict = {'0': [prebuilt_flattened_dict]}
 
-    _flatten_low_entropy(nested_dict, None, cur_depth=0,
+    _flatten_low_entropy(nested_dict,
+                         None,
+                         cur_depth=0,
+                         cur_list_depth=0,
                          max_depth_inner=max_depth)
 
     return list_prebuilt_flattened_dict['0']
