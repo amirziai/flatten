@@ -2260,7 +2260,10 @@ class UnitTests(unittest.TestCase):
              'b.b': 10,
              'a': 'a'}]
 
-        actual = flatten_preserve_lists(dic, separator='.', max_list_index=100, max_depth=5)
+        actual = flatten_preserve_lists(dic,
+                                        separator='.',
+                                        max_list_index=100,
+                                        max_depth=5)
         self.assertEqual(expected, actual)
 
     def test_flatten_preserve_lists_issue72(self):
@@ -2295,7 +2298,10 @@ class UnitTests(unittest.TestCase):
              'a': 0,
              'b.d': 5}]
 
-        actual = flatten_preserve_lists(dic, separator='.', max_list_index=10, max_depth=5)
+        actual = flatten_preserve_lists(dic,
+                                        separator='.',
+                                        max_list_index=10,
+                                        max_depth=5)
         self.assertEqual(expected, actual)
 
     def test_unflatten_with_list_deep(self):
