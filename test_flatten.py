@@ -2170,6 +2170,135 @@ class UnitTests(unittest.TestCase):
         actual = flatten_preserve_lists(dic, max_list_index=50, max_depth=10)
         self.assertEqual(expected, actual)
 
+
+    def test_flatten_preserve_lists_issue69(self):
+        """https://github.com/amirziai/flatten/issues/69"""
+        dic = {
+        'a': 'a',
+        'b': [
+        {'b': 1, 'c': 1},
+        {'b': 2, 'c': 2},
+        {'b': 3, 'c': 3},
+        {'b': 4, 'c': 4},
+        {'b': 5, 'c': 5},
+        {'b': 6, 'c': 6},
+        {'b': 7, 'c': 7},
+        {'b': 8, 'c': 8},
+        {'b': 9, 'c': 9},
+        {'b': 10, 'c': 10},
+        {'b': 11, 'c': 11},
+        {'b': 12, 'c': 12},
+        {'b': 13, 'c': 13},
+        {'b': 14, 'c': 14},
+        {'b': 15, 'c': 15},
+        {'b': 16, 'c': 16},
+        {'b': 17, 'c': 17},
+        {'b': 15, 'c': 18},
+        {'b': 16, 'c': 19},
+        {'b': 17, 'c': 20}
+        ]
+        }
+
+        expected = [
+            {'b.c': 1,
+             'b.b': 1,
+             'a': 'a'},
+            {'b.c': 2,
+             'b.b': 2,
+             'a': 'a'},
+            {'b.c': 11,
+             'b.b': 11,
+             'a': 'a'},
+            {'b.c': 12,
+             'b.b': 12,
+             'a': 'a'},
+            {'b.c': 13,
+             'b.b': 13,
+             'a': 'a'},
+            {'b.c': 14,
+             'b.b': 14,
+             'a': 'a'},
+            {'b.c': 15,
+             'b.b': 15,
+             'a': 'a'},
+            {'b.c': 16,
+             'b.b': 16,
+             'a': 'a'},
+            {'b.c': 17,
+             'b.b': 17,
+             'a': 'a'},
+            {'b.c': 18,
+             'b.b': 15,
+             'a': 'a'},
+            {'b.c': 19,
+             'b.b': 16,
+             'a': 'a'},
+            {'b.c': 20,
+             'b.b': 17,
+             'a': 'a'},
+            {'b.c': 3,
+             'b.b': 3,
+             'a': 'a'},
+            {'b.c': 4,
+             'b.b': 4,
+             'a': 'a'},
+            {'b.c': 5,
+             'b.b': 5,
+             'a': 'a'},
+            {'b.c': 6,
+             'b.b': 6,
+             'a': 'a'},
+            {'b.c': 7,
+             'b.b': 7,
+             'a': 'a'},
+            {'b.c': 8,
+             'b.b': 8,
+             'a': 'a'},
+            {'b.c': 9,
+             'b.b': 9,
+             'a': 'a'},
+            {'b.c': 10,
+             'b.b': 10,
+             'a': 'a'}]
+
+        actual = flatten_preserve_lists(dic, separator='.', max_list_index=100, max_depth=5)
+        self.assertEqual(expected, actual)
+
+    def test_flatten_preserve_lists_issue72(self):
+        """https://github.com/amirziai/flatten/issues/72"""
+        dic =  {'a': 0,
+                'b':[
+                    {'c': 1,
+                     'd': [{'e': 1}]},
+                    {'c': 2,
+                     'd': [{'e': 2}]},
+                    {'c': 3,
+                     'd': [{'e': 3}]},
+                    {'c': 4,
+                     'd': [{'e': 4}]},
+                    {'c': 5,
+                     'd': [{'e': 5}]}]}
+
+        expected = [
+            {'b.c': 1,
+             'a': 0,
+             'b.d': 1},
+            {'b.c': 2,
+             'a': 0,
+             'b.d': 2},
+            {'b.c': 3,
+             'a': 0,
+             'b.d': 3},
+            {'b.c': 4,
+             'a': 0,
+             'b.d': 4},
+            {'b.c': 5,
+             'a': 0,
+             'b.d': 5}]
+
+        actual = flatten_preserve_lists(dic, separator='.', max_list_index=10, max_depth=5)
+        self.assertEqual(expected, actual)
+
     def test_unflatten_with_list_deep(self):
         dic = {'a': [
             {'b': [{'c': [{'a': 5, 'b': {'a': [1, 2, 3]}, 'c': {'x': 3}}]}]}]}
