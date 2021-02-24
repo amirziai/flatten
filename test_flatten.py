@@ -2170,33 +2170,32 @@ class UnitTests(unittest.TestCase):
         actual = flatten_preserve_lists(dic, max_list_index=50, max_depth=10)
         self.assertEqual(expected, actual)
 
-
     def test_flatten_preserve_lists_issue69(self):
         """https://github.com/amirziai/flatten/issues/69"""
         dic = {
-        'a': 'a',
-        'b': [
-        {'b': 1, 'c': 1},
-        {'b': 2, 'c': 2},
-        {'b': 3, 'c': 3},
-        {'b': 4, 'c': 4},
-        {'b': 5, 'c': 5},
-        {'b': 6, 'c': 6},
-        {'b': 7, 'c': 7},
-        {'b': 8, 'c': 8},
-        {'b': 9, 'c': 9},
-        {'b': 10, 'c': 10},
-        {'b': 11, 'c': 11},
-        {'b': 12, 'c': 12},
-        {'b': 13, 'c': 13},
-        {'b': 14, 'c': 14},
-        {'b': 15, 'c': 15},
-        {'b': 16, 'c': 16},
-        {'b': 17, 'c': 17},
-        {'b': 15, 'c': 18},
-        {'b': 16, 'c': 19},
-        {'b': 17, 'c': 20}
-        ]
+            'a': 'a',
+            'b': [
+                {'b': 1, 'c': 1},
+                {'b': 2, 'c': 2},
+                {'b': 3, 'c': 3},
+                {'b': 4, 'c': 4},
+                {'b': 5, 'c': 5},
+                {'b': 6, 'c': 6},
+                {'b': 7, 'c': 7},
+                {'b': 8, 'c': 8},
+                {'b': 9, 'c': 9},
+                {'b': 10, 'c': 10},
+                {'b': 11, 'c': 11},
+                {'b': 12, 'c': 12},
+                {'b': 13, 'c': 13},
+                {'b': 14, 'c': 14},
+                {'b': 15, 'c': 15},
+                {'b': 16, 'c': 16},
+                {'b': 17, 'c': 17},
+                {'b': 15, 'c': 18},
+                {'b': 16, 'c': 19},
+                {'b': 17, 'c': 20}
+            ]
         }
 
         expected = [
@@ -2266,18 +2265,18 @@ class UnitTests(unittest.TestCase):
 
     def test_flatten_preserve_lists_issue72(self):
         """https://github.com/amirziai/flatten/issues/72"""
-        dic =  {'a': 0,
-                'b':[
-                    {'c': 1,
-                     'd': [{'e': 1}]},
-                    {'c': 2,
-                     'd': [{'e': 2}]},
-                    {'c': 3,
-                     'd': [{'e': 3}]},
-                    {'c': 4,
-                     'd': [{'e': 4}]},
-                    {'c': 5,
-                     'd': [{'e': 5}]}]}
+        dic = {'a': 0,
+               'b': [
+                   {'c': 1,
+                    'd': [{'e': 1}]},
+                   {'c': 2,
+                    'd': [{'e': 2}]},
+                   {'c': 3,
+                    'd': [{'e': 3}]},
+                   {'c': 4,
+                    'd': [{'e': 4}]},
+                   {'c': 5,
+                    'd': [{'e': 5}]}]}
 
         expected = [
             {'b.c': 1,
