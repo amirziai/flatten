@@ -6,7 +6,7 @@ from setuptools import setup
 setup(
     name='flatten_json',
     packages=['flatten_json'],
-    version='0.1.13',
+    version='0.1.14',
     description='Flatten JSON objects',
     license='MIT',
     author='Amir Ziai',
