@@ -1,5 +1,7 @@
 from setuptools import setup
 
+# For release: `python -m pip install build && python -m build .`
+# The upload both the sdist and wheel under ./dist
 
 setup(
     name='flatten_json',
