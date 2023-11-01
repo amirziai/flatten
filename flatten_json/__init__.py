@@ -67,7 +67,8 @@ def flatten(
     :return: flattened dictionary
     """
     assert isinstance(nested_dict, dict), "flatten requires a dictionary input"
-    assert isinstance(separator, six.string_types), "separator must be string"
+    assert isinstance(separator, six.string_types), "separator must be a string"
+    assert isinstance(replace_separators, six.string_types), "replace_separators must be a string"
 
     if root_keys_to_ignore is None:
         root_keys_to_ignore = set()
