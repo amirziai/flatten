@@ -201,7 +201,11 @@ def flatten_preserve_lists(nested_dict, separator="_",
         else:
             flattened_dict[key] = object_
 
-    def _flatten_low_entropy(object_, key, cur_depth, max_depth_inner):
+    def _flatten_low_entropy(object_,
+                             key,
+                             cur_depth,
+                             cur_list_depth,
+                             max_depth_inner):
         """
         For dict, list and set objects_ calls itself on the elements and for
         other types assigns the object_ to
@@ -217,7 +221,7 @@ def flatten_preserve_lists(nested_dict, separator="_",
         # write latest child as value if max_depth exceeded
         if cur_depth > max_depth_inner:
             global_max_record = int(max(list(
-                list_prebuilt_flattened_dict.keys())))
+                list_prebuilt_flattened_dict.keys()), key=int))
             for d in list_prebuilt_flattened_dict[str(global_max_record)]:
                 d[key] = object_
 
@@ -225,7 +229,7 @@ def flatten_preserve_lists(nested_dict, separator="_",
             # Empty object can't be iterated, take as is
             if not object_:
                 global_max_record = int(max(list(
-                    list_prebuilt_flattened_dict.keys())))
+                    list_prebuilt_flattened_dict.keys()), key=int))
                 for d in list_prebuilt_flattened_dict[str(global_max_record)]:
                     d[key] = object_
 
@@ -239,7 +243,7 @@ def flatten_preserve_lists(nested_dict, separator="_",
                         and not (isinstance(object_[first_key], dict)
                                  or isinstance(object_[first_key], list)):
                     global_max_record = int(max(list(
-                        list_prebuilt_flattened_dict.keys())))
+                        list_prebuilt_flattened_dict.keys()), key=int))
 
                     for d in list_prebuilt_flattened_dict[
                         str(global_max_record)
@@ -261,10 +265,13 @@ def flatten_preserve_lists(nested_dict, separator="_",
                                     object_key,
                                     replace_separators=replace_separators),
                                 cur_depth,
+                                cur_list_depth,
                                 max_depth_inner)
 
             # lists could go into rows, like in a relational database
             elif isinstance(object_, list) or isinstance(object_, set):
+                cur_list_depth = cur_list_depth + 1
+
                 if debug:
                     print("\nparent key of list:",
                           key, "| length: ",
@@ -273,7 +280,7 @@ def flatten_preserve_lists(nested_dict, separator="_",
                 # need to remember global list state when we entered
                 # this recursion
                 global_max_record_start = int(max(list(
-                    list_prebuilt_flattened_dict.keys())))
+                    list_prebuilt_flattened_dict.keys()), key=int))
                 entry = copy.deepcopy(list_prebuilt_flattened_dict[
                                           str(global_max_record_start)
                                       ])
@@ -294,27 +301,32 @@ def flatten_preserve_lists(nested_dict, separator="_",
                         # start from second element, 1st element is like column
                         if index > 0:
                             global_max_record = int(max(list(
-                                list_prebuilt_flattened_dict.keys())))
+                                list_prebuilt_flattened_dict.keys()), key=int))
 
                             list_prebuilt_flattened_dict[
                                 str(global_max_record + 1)
                             ] = copy.deepcopy(entry)
 
-                        _flatten_low_entropy(item, key, cur_depth,
+                        _flatten_low_entropy(item,
+                                             key,
+                                             cur_depth,
+                                             cur_list_depth,
                                              max_depth_inner)
                     else:
                         pass
 
-                list_prebuilt_flattened_dict['0'] = \
-                    [subel for k, v in
-                     sorted(list_prebuilt_flattened_dict.items())
-                     for idx, subel in enumerate(v)]
+                cur_list_depth = cur_list_depth - 1
+                if cur_list_depth == 0:
+                    list_prebuilt_flattened_dict['0'] = \
+                        [subel for k, v in
+                         sorted(list_prebuilt_flattened_dict.items())
+                         for idx, subel in enumerate(v)]
 
-                for key in list(sorted(list_prebuilt_flattened_dict.keys())):
-                    if key != '0':
-                        del list_prebuilt_flattened_dict[key]
-                if debug:
-                    print("collapsed global list")
+                    for key in list(sorted(list_prebuilt_flattened_dict.keys())):
+                        if key != '0':
+                            del list_prebuilt_flattened_dict[key]
+                    if debug:
+                        print("collapsed global list")
 
             # Anything left take as is, assuming you hit the end of the line.
             else:
@@ -322,7 +334,7 @@ def flatten_preserve_lists(nested_dict, separator="_",
                 # a list of prebuilt_flattened_dict by now
                 # so need to update them all.
                 global_max_record = int(max(list(
-                    list_prebuilt_flattened_dict.keys())))
+                    list_prebuilt_flattened_dict.keys()), key=int))
 
                 for d in list_prebuilt_flattened_dict[str(global_max_record)]:
                     d[key] = object_
@@ -348,7 +360,10 @@ def flatten_preserve_lists(nested_dict, separator="_",
     # initialize global record list
     list_prebuilt_flattened_dict = {'0': [prebuilt_flattened_dict]}
 
-    _flatten_low_entropy(nested_dict, None, cur_depth=0,
+    _flatten_low_entropy(nested_dict,
+                         None,
+                         cur_depth=0,
+                         cur_list_depth=0,
                          max_depth_inner=max_depth)
 
     return list_prebuilt_flattened_dict['0']
