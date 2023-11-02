@@ -377,7 +377,11 @@ def unflatten(flat_dict, separator='_'):
 
     def _unflatten(dic, keys, value):
         for key in keys[:-1]:
-            dic = dic.setdefault(key, {})
+            nested_dic = dic.get(key)
+            if nested_dic is None:
+                nested_dic = {}
+                dic[key] = nested_dic
+            dic = nested_dic
 
         dic[keys[-1]] = value
 
